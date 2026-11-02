@@ -828,8 +828,8 @@ body.ach-hide-ui #players {
   border-radius: 2px;
 }
 .ach-group-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 72px);
+  display: flex;
+  flex-wrap: wrap;
   gap: 5px;
   max-width: 572px;
 }

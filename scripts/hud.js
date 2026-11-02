@@ -912,6 +912,7 @@ export class CombatHud {
         <div class="ach-tip-desc"><p>${esc(t(`Basic.${obj.action.id}.Desc`))}</p></div>
         <span class="ach-seal"></span>`;
     } else if (obj?.type === "cat") {
+      if (el.classList.contains("is-open")) return;
       html = esc(obj.label);
     } else if (el.dataset.tip) {
       html = esc(el.dataset.tip);
