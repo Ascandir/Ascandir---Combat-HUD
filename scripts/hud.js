@@ -486,6 +486,7 @@ export class CombatHud {
       if (feats.length) tiles.push(this._catTile("m-features", t("Cat.MountFeatures"), "fas fa-horse-head", [{ entries: feats }], opts));
       if (c.spells.length) tiles.push(this._spellCat(mActor, c.spells, { mount: true }));
       tiles.push(this._basicCat(mActor, MOUNT_BASIC, actor));
+      if (game.modules.get("ascandir-mounting")?.api?.dismount) tiles.push({ kind: "dismount", key: this.reg({ type: "dismount" }) });
       panels.push({ id: "mount", label: t("Panel.Mount"), tiles, mount: true, locked: !mActor.isOwner, sub: mActor.name });
     }
 
@@ -631,6 +632,11 @@ export class CombatHud {
             <span class="ach-tile-label">${esc(e.label ?? e.item.name)}</span>
           </div>`;
       }
+      case "dismount":
+        return `
+          <div class="ach-tile ach-tile-cat ach-dismount" data-key="${tile.key}" data-tip="${esc(t("Mount.DismountTip"))}">
+            <i class="fas fa-person-falling"></i><span class="ach-tile-label">${esc(t("Mount.Dismount"))}</span>
+          </div>`;
       case "macro":
         return `
           <div class="ach-tile ach-tile-item ach-tile-macro" data-key="${tile.key}" data-tip="${esc(tile.macro.name)}" style="background-image:url('${esc(tile.macro.img)}')">
@@ -875,6 +881,14 @@ export class CombatHud {
         return this._useBasic(obj);
       case "macro":
         return obj.macro?.execute?.();
+      case "dismount":
+        this.hideTip();
+        try {
+          await game.modules.get("ascandir-mounting")?.api?.dismount?.(this.token.document);
+        } catch (err) {
+          console.error(`${ID} |`, err);
+        }
+        return;
     }
   }
 

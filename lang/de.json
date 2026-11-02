@@ -43,7 +43,9 @@
       "Label": "Reittier",
       "OpenSheet": "Bogen des Reittiers öffnen",
       "NotOwner": "Dir gehört das Reittier nicht – der SL muss dir Besitzrechte geben, damit du seine Aktionen nutzen kannst.",
-      "ControlledBy": "gelenkt von {rider}"
+      "ControlledBy": "gelenkt von {rider}",
+      "Dismount": "Absitzen",
+      "DismountTip": "Vom Reittier absitzen"
     },
     "Drawer": {
       "Title": "Rettungswürfe / Fertigkeiten / Werkzeuge",

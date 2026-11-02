@@ -632,7 +632,7 @@ body.ach-hide-ui #players {
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
-.ach-panel.is-locked .ach-panel-tiles > * {
+.ach-panel.is-locked .ach-panel-tiles > :not(.ach-dismount) {
   filter: saturate(0.5) brightness(0.75);
 }
 
@@ -965,6 +965,9 @@ body.ach-hide-ui #players {
   flex-direction: column;
   align-self: flex-end;
 }
+.ach-tile.ach-dismount {
+  background-image: var(--ach-tex-grain), radial-gradient(ellipse at 50% 35%, #8a6a3a, #4a3418 60%, #24170a);
+}
 .ach-panel-endturn {
   --ach-tint: #8e1d14;
 }
@@ -1088,11 +1091,8 @@ body.ach-hide-ui #players {
   color: #8e1d14;
 }
 .ach-tip-desc {
-  max-height: 230px;
-  overflow: hidden;
   font-size: 13px;
   line-height: 1.35;
-  mask-image: linear-gradient(180deg, #000 85%, transparent);
 }
 .ach-tip-desc p {
   margin: 0 0 5px;
@@ -1165,7 +1165,8 @@ body.ach-hide-ui #players {
 
 /* Tooltip-Texte immer dunkel (auch angereicherte Texte von dnd5e) */
 .ach-tooltip {
-  zoom: var(--ach-tip-scale, 1);
+  transform: scale(var(--ach-tip-scale, 1));
+  transform-origin: top left;
 }
 .ach-tooltip.rich,
 .ach-tooltip.rich *,

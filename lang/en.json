@@ -43,7 +43,9 @@
       "Label": "Mount",
       "OpenSheet": "Open mount sheet",
       "NotOwner": "You don't own this mount – the GM has to grant you ownership so you can use its actions.",
-      "ControlledBy": "controlled by {rider}"
+      "ControlledBy": "controlled by {rider}",
+      "Dismount": "Dismount",
+      "DismountTip": "Get off your mount"
     },
     "Drawer": {
       "Title": "Saves / Skills / Tools",

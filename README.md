@@ -69,6 +69,7 @@ Sobald dein Charakter aufgesessen ist:
 - Das Portrait zeigt das Bild des kombinierten Tokens. Die Infos des Reiters rutschen nach oben, darunter stehen Name, TP, RK und Bewegungsrate des Reittiers.
 - Nach der Bonusaktion erscheint der Bereich **Reittier** mit den Angriffen, Merkmalen und Zaubern des Reittiers sowie den Reittier-Aktionen Spurten, Rückzug und Ausweichen. Würfe laufen auf das Reittier.
 - In der Würfe-Liste kann man zwischen Reiter und Reittier umschalten.
+- Der Knopf **Absitzen** im Reittier-Bereich lässt dich absteigen.
 - Gehört dir das Reittier nicht, ist der Bereich gesperrt (Schloss-Symbol). Der SL muss dir Besitzrechte am Reittier-Akteur geben.
 
 ## Designs
