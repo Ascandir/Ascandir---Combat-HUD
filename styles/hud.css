@@ -963,31 +963,22 @@ body.ach-hide-ui #players {
 .ach-side {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   align-self: flex-end;
-  margin-bottom: 26px;
 }
-.ach-endturn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 6px 8px;
-  font-family: var(--ach-font-head);
-  font-size: 14px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--ach-banner-text);
-  background: radial-gradient(circle at 50% 30%, #b8312a, #5c0d0a 75%);
-  border: 2px solid var(--ach-frame-hi);
-  border-radius: 6px;
-  box-shadow: var(--ach-shadow), inset 0 -3px 6px rgba(0, 0, 0, 0.45);
+.ach-panel-endturn {
+  --ach-tint: #8e1d14;
 }
-.ach-endturn i {
-  font-size: 22px;
+.ach-tile.ach-endturn {
+  background-image: var(--ach-tex-grain), radial-gradient(circle at 50% 35%, #c8392f, #7a140e 55%, #3e0806);
 }
-.ach-endturn:hover {
-  filter: brightness(1.15);
+.ach-tile.ach-endturn {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: var(--ach-tile);
+}
+.ach-tile.ach-endturn > i {
+  font-size: 40px;
+  margin-bottom: 0;
 }
 
 /* ---------- Minimieren ---------- */

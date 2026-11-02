@@ -742,7 +742,14 @@ export class CombatHud {
     if (!myTurn) return "";
     return `
       <section class="ach-side">
-        <button type="button" class="ach-endturn" data-action="end-turn"><i class="fas fa-hourglass-end"></i><span>${esc(t("Hud.EndTurn"))}</span></button>
+        <div class="ach-panel ach-panel-endturn">
+          <div class="ach-panel-tiles">
+            <div class="ach-tile ach-tile-cat ach-endturn" data-action="end-turn" data-tip="${esc(t("Hud.EndTurn"))}">
+              <i class="fas fa-hourglass-end"></i>
+            </div>
+          </div>
+          <div class="ach-panel-label" data-action="end-turn"><span>${esc(t("Hud.EndTurn"))}</span></div>
+        </div>
       </section>`;
   }
 
