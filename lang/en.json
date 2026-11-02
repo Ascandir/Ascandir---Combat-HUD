@@ -1,0 +1,205 @@
+{
+  "ACH": {
+    "Controls": {
+      "Toggle": "Combat HUD (Ascandir) on/off"
+    },
+    "Keys": {
+      "Toggle": "Toggle combat HUD",
+      "Minimize": "Minimize combat HUD"
+    },
+    "Theme": {
+      "Rustic": "Rustic (Wood & Bronze)",
+      "Gothic": "Gothic & Parchment"
+    },
+    "Warn": {
+      "SelectToken": "Select one of your tokens first.",
+      "NotOwner": "You don't own this character."
+    },
+    "Hud": {
+      "Expand": "Expand HUD",
+      "Minimize": "Collapse HUD",
+      "ToggleUsed": "Click: mark as used / reset",
+      "OpportunityAttack": "Opportunity attack",
+      "EndTurn": "End turn",
+      "ShortRest": "Short rest",
+      "LongRest": "Long rest"
+    },
+    "Portrait": {
+      "HP": "HP",
+      "HPTip": "Hit points (incl. temporary)",
+      "AC": "AC",
+      "DC": "DC",
+      "SpeedTip": "Mount speed",
+      "DeathSave": "Death saving throw",
+      "CR": "CR {cr}",
+      "Level": "Level {level}"
+    },
+    "Mount": {
+      "Label": "Mount",
+      "OpenSheet": "Open mount sheet",
+      "NotOwner": "You don't own this mount – the GM has to grant you ownership so you can use its actions.",
+      "ControlledBy": "controlled by {rider}"
+    },
+    "Drawer": {
+      "Title": "Saves / Skills / Tools",
+      "Abilities": "Abilities",
+      "Check": "Check",
+      "Save": "Save",
+      "Skills": "Skills",
+      "Passive": "Passive",
+      "Tools": "Tools"
+    },
+    "Move": {
+      "Tip": "Movement: {left} of {total} {units} left"
+    },
+    "Panel": {
+      "Action": "Action",
+      "Bonus": "Bonus Action",
+      "Mount": "Mount",
+      "Reaction": "Reaction",
+      "Special": "Special",
+      "Legendary": "Legendary",
+      "Lair": "Lair",
+      "Mythic": "Mythic"
+    },
+    "Cat": {
+      "Weapons": "Weapons",
+      "Spells": "Cast Spell",
+      "Features": "Use Feature",
+      "Items": "Use Item",
+      "Basic": "Basic Actions",
+      "MountAttacks": "Attacks",
+      "MountFeatures": "Features",
+      "MountBasic": "Mount Actions"
+    },
+    "Sets": {
+      "Tip": "Weapon sets – drag a weapon from the sheet onto a slot, right-click clears it",
+      "Empty": "Empty",
+      "EmptySlot": "No weapon set assigned – drag a weapon from your character sheet here.",
+      "Primary": "Main hand",
+      "Secondary": "Off hand",
+      "OwnItemsOnly": "Only this character's items can go into a weapon set."
+    },
+    "Spells": {
+      "Items": "Magic items",
+      "AtWill": "At will",
+      "Innate": "Innate",
+      "Cantrips": "Cantrips",
+      "Pact": "Pact magic"
+    },
+    "Tooltip": {
+      "Activation": "Activation",
+      "Range": "Range",
+      "Target": "Target",
+      "ToHit": "To hit",
+      "Save": "Save",
+      "Damage": "Damage",
+      "Duration": "Duration",
+      "Materials": "Materials"
+    },
+    "Basic": {
+      "dash": {
+        "Name": "Dash",
+        "Desc": "You gain extra movement equal to your speed for this turn."
+      },
+      "disengage": {
+        "Name": "Disengage",
+        "Desc": "Your movement doesn't provoke opportunity attacks for the rest of the turn."
+      },
+      "dodge": {
+        "Name": "Dodge",
+        "Desc": "Until your next turn, attacks against you have disadvantage and you have advantage on Dexterity saving throws."
+      },
+      "help": {
+        "Name": "Help",
+        "Desc": "You help an ally with a check or distract an enemy so an ally's next attack has advantage."
+      },
+      "hide": {
+        "Name": "Hide",
+        "Desc": "You try to hide (Dexterity (Stealth), DC 15)."
+      },
+      "ready": {
+        "Name": "Ready",
+        "Desc": "You choose a trigger and prepare an action to take as a reaction."
+      },
+      "search": {
+        "Name": "Search",
+        "Desc": "You look for something (Wisdom check, e.g. Perception)."
+      },
+      "study": {
+        "Name": "Study",
+        "Desc": "You examine something closely (Intelligence check, e.g. Investigation)."
+      },
+      "influence": {
+        "Name": "Influence",
+        "Desc": "You try to persuade, intimidate or deceive a creature (Charisma or Wisdom check)."
+      },
+      "utilize": {
+        "Name": "Utilize",
+        "Desc": "You use a nonmagical object or interact with an object."
+      }
+    },
+    "Settings": {
+      "theme": {
+        "Name": "Theme",
+        "Hint": "Look of the combat HUD. Other modules (e.g. the Themer) can add more themes."
+      },
+      "scale": {
+        "Name": "Scale",
+        "Hint": "Size of the HUD."
+      },
+      "left": {
+        "Name": "Left offset (px)",
+        "Hint": "Distance from the left screen edge."
+      },
+      "bottom": {
+        "Name": "Bottom offset (px)",
+        "Hint": "Distance from the bottom screen edge."
+      },
+      "openOnSelect": {
+        "Name": "Open on select",
+        "Hint": "Opens the HUD whenever you select one of your tokens."
+      },
+      "openOnCombat": {
+        "Name": "Open in combat",
+        "Hint": "Opens the HUD when combat starts and on your character's turn."
+      },
+      "hideFoundryUi": {
+        "Name": "Hide hotbar and player list",
+        "Hint": "Hides the Foundry hotbar and player list while the HUD is open."
+      },
+      "showTooltips": {
+        "Name": "Show tooltips",
+        "Hint": "Parchment tooltips when hovering actions."
+      },
+      "rangeRing": {
+        "Name": "Show range",
+        "Hint": "Shows an action's range as a ring around the token when hovering it."
+      },
+      "limitedFeaturesInBar": {
+        "Name": "Show limited-use features directly",
+        "Hint": "Features with limited uses appear as small tiles directly in the panel instead of inside the folder."
+      },
+      "showEmptyPanels": {
+        "Name": "Show empty panels",
+        "Hint": "Shows Bonus Action, Reaction and Special even when they are empty."
+      },
+      "hideUnprepared": {
+        "Name": "Prepared spells only",
+        "Hint": "Unprepared spells are hidden in the HUD (cantrips, at-will and innate spells stay)."
+      },
+      "switchEquip": {
+        "Name": "Equip weapon sets",
+        "Hint": "Switching weapon sets equips/unequips the weapons automatically."
+      },
+      "trackMovement": {
+        "Name": "Track movement in combat",
+        "Hint": "Shows remaining movement for the current turn in combat."
+      },
+      "trackEconomy": {
+        "Name": "Mark actions as used",
+        "Hint": "After use, Action/Bonus/Reaction/Mount is greyed out until your next turn."
+      }
+    }
+  }
+}

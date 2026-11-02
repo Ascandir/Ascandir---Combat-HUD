@@ -1,0 +1,205 @@
+{
+  "ACH": {
+    "Controls": {
+      "Toggle": "Kampf-HUD (Ascandir) ein/aus"
+    },
+    "Keys": {
+      "Toggle": "Kampf-HUD ein-/ausblenden",
+      "Minimize": "Kampf-HUD minimieren"
+    },
+    "Theme": {
+      "Rustic": "Rustikal (Holz & Bronze)",
+      "Gothic": "Gotik & Pergament"
+    },
+    "Warn": {
+      "SelectToken": "Wähle zuerst einen eigenen Token aus.",
+      "NotOwner": "Dir gehört dieser Charakter nicht."
+    },
+    "Hud": {
+      "Expand": "HUD ausklappen",
+      "Minimize": "HUD einklappen",
+      "ToggleUsed": "Klicken: als verbraucht markieren / zurücksetzen",
+      "OpportunityAttack": "Gelegenheitsangriff",
+      "EndTurn": "Zug beenden",
+      "ShortRest": "Kurze Rast",
+      "LongRest": "Lange Rast"
+    },
+    "Portrait": {
+      "HP": "TP",
+      "HPTip": "Trefferpunkte (inkl. temporärer)",
+      "AC": "RK",
+      "DC": "SG",
+      "SpeedTip": "Bewegungsrate des Reittiers",
+      "DeathSave": "Todesrettungswurf",
+      "CR": "HG {cr}",
+      "Level": "Stufe {level}"
+    },
+    "Mount": {
+      "Label": "Reittier",
+      "OpenSheet": "Bogen des Reittiers öffnen",
+      "NotOwner": "Dir gehört das Reittier nicht – der SL muss dir Besitzrechte geben, damit du seine Aktionen nutzen kannst.",
+      "ControlledBy": "gelenkt von {rider}"
+    },
+    "Drawer": {
+      "Title": "Rettungswürfe / Fertigkeiten / Werkzeuge",
+      "Abilities": "Attribute",
+      "Check": "Probe",
+      "Save": "Rettung",
+      "Skills": "Fertigkeiten",
+      "Passive": "Passiv",
+      "Tools": "Werkzeuge"
+    },
+    "Move": {
+      "Tip": "Bewegung: noch {left} von {total} {units}"
+    },
+    "Panel": {
+      "Action": "Aktion",
+      "Bonus": "Bonusaktion",
+      "Mount": "Reittier",
+      "Reaction": "Reaktion",
+      "Special": "Spezial",
+      "Legendary": "Legendär",
+      "Lair": "Hort",
+      "Mythic": "Mythisch"
+    },
+    "Cat": {
+      "Weapons": "Waffen",
+      "Spells": "Zauber wirken",
+      "Features": "Merkmal nutzen",
+      "Items": "Gegenstand nutzen",
+      "Basic": "Standard­aktionen",
+      "MountAttacks": "Angriffe",
+      "MountFeatures": "Merkmale",
+      "MountBasic": "Reittier-Aktionen"
+    },
+    "Sets": {
+      "Tip": "Waffensets – Waffe aus dem Charakterbogen auf ein Feld ziehen, Rechtsklick leert es",
+      "Empty": "Leer",
+      "EmptySlot": "Kein Waffenset belegt – ziehe eine Waffe aus deinem Charakterbogen hierher.",
+      "Primary": "Haupthand",
+      "Secondary": "Nebenhand",
+      "OwnItemsOnly": "Nur Gegenstände dieses Charakters können ins Waffenset."
+    },
+    "Spells": {
+      "Items": "Magische Gegenstände",
+      "AtWill": "Beliebig oft",
+      "Innate": "Angeboren",
+      "Cantrips": "Zaubertricks",
+      "Pact": "Paktmagie"
+    },
+    "Tooltip": {
+      "Activation": "Aktivierung",
+      "Range": "Reichweite",
+      "Target": "Ziel",
+      "ToHit": "Treffer",
+      "Save": "Rettungswurf",
+      "Damage": "Schaden",
+      "Duration": "Dauer",
+      "Materials": "Material"
+    },
+    "Basic": {
+      "dash": {
+        "Name": "Spurten",
+        "Desc": "Du erhältst für diesen Zug zusätzliche Bewegung in Höhe deiner Bewegungsrate."
+      },
+      "disengage": {
+        "Name": "Rückzug",
+        "Desc": "Deine Bewegung löst für den Rest des Zugs keine Gelegenheitsangriffe aus."
+      },
+      "dodge": {
+        "Name": "Ausweichen",
+        "Desc": "Bis zu deinem nächsten Zug haben Angriffe gegen dich Nachteil und du hast Vorteil bei Geschicklichkeitsrettungswürfen (solange du dich bewegen kannst)."
+      },
+      "help": {
+        "Name": "Helfen",
+        "Desc": "Du hilfst einem Verbündeten bei einer Probe oder lenkst einen Gegner in deiner Nähe ab, sodass der nächste Angriff eines Verbündeten Vorteil hat."
+      },
+      "hide": {
+        "Name": "Verstecken",
+        "Desc": "Du versuchst dich zu verstecken (Geschicklichkeit (Heimlichkeit), SG 15)."
+      },
+      "ready": {
+        "Name": "Vorbereiten",
+        "Desc": "Du legst einen Auslöser fest und bereitest eine Aktion vor, die du als Reaktion ausführst."
+      },
+      "search": {
+        "Name": "Suchen",
+        "Desc": "Du suchst nach etwas (Weisheit-Probe, z. B. Wahrnehmung)."
+      },
+      "study": {
+        "Name": "Untersuchen",
+        "Desc": "Du untersuchst etwas genauer (Intelligenz-Probe, z. B. Nachforschungen)."
+      },
+      "influence": {
+        "Name": "Beeinflussen",
+        "Desc": "Du versuchst, eine Kreatur zu überzeugen, einzuschüchtern oder zu täuschen (Charisma- oder Weisheitsprobe)."
+      },
+      "utilize": {
+        "Name": "Benutzen",
+        "Desc": "Du benutzt einen nichtmagischen Gegenstand oder interagierst mit einem Objekt."
+      }
+    },
+    "Settings": {
+      "theme": {
+        "Name": "Design",
+        "Hint": "Aussehen des Kampf-HUDs. Weitere Designs können andere Module (z. B. der Themer) hinzufügen."
+      },
+      "scale": {
+        "Name": "Größe",
+        "Hint": "Skalierung des HUDs."
+      },
+      "left": {
+        "Name": "Abstand links (px)",
+        "Hint": "Abstand vom linken Bildschirmrand."
+      },
+      "bottom": {
+        "Name": "Abstand unten (px)",
+        "Hint": "Abstand vom unteren Bildschirmrand."
+      },
+      "openOnSelect": {
+        "Name": "Beim Auswählen öffnen",
+        "Hint": "Das HUD öffnet sich automatisch, sobald du einen eigenen Token auswählst."
+      },
+      "openOnCombat": {
+        "Name": "Im Kampf automatisch öffnen",
+        "Hint": "Öffnet das HUD bei Kampfbeginn und wenn dein Charakter am Zug ist."
+      },
+      "hideFoundryUi": {
+        "Name": "Makroleiste und Spielerliste ausblenden",
+        "Hint": "Blendet die Foundry-Makroleiste und die Spielerliste aus, solange das HUD offen ist."
+      },
+      "showTooltips": {
+        "Name": "Tooltips anzeigen",
+        "Hint": "Pergament-Tooltips beim Überfahren von Aktionen."
+      },
+      "rangeRing": {
+        "Name": "Reichweite anzeigen",
+        "Hint": "Zeigt beim Überfahren einer Aktion ihre Reichweite als Ring um den Token."
+      },
+      "limitedFeaturesInBar": {
+        "Name": "Merkmale mit Ladungen direkt anzeigen",
+        "Hint": "Merkmale mit begrenzten Nutzungen (z. B. Kanalisieren) erscheinen als kleine Kacheln direkt im Bereich statt im Ordner."
+      },
+      "showEmptyPanels": {
+        "Name": "Leere Bereiche anzeigen",
+        "Hint": "Zeigt Bonusaktion, Reaktion und Spezial auch dann an, wenn nichts darin liegt."
+      },
+      "hideUnprepared": {
+        "Name": "Nur vorbereitete Zauber",
+        "Hint": "Nicht vorbereitete Zauber werden im HUD ausgeblendet (Zaubertricks, beliebig oft und angeborene Zauber bleiben)."
+      },
+      "switchEquip": {
+        "Name": "Waffensets ausrüsten",
+        "Hint": "Beim Wechsel des Waffensets werden die Waffen automatisch aus- bzw. angelegt."
+      },
+      "trackMovement": {
+        "Name": "Bewegung im Kampf zählen",
+        "Hint": "Zeigt im Kampf die verbleibende Bewegung des Zuges an."
+      },
+      "trackEconomy": {
+        "Name": "Aktionen als verbraucht markieren",
+        "Hint": "Nach dem Nutzen wird Aktion/Bonusaktion/Reaktion/Reittier bis zum nächsten eigenen Zug ausgegraut."
+      }
+    }
+  }
+}
