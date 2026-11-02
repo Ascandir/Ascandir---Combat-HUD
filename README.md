@@ -24,7 +24,7 @@ Falls Argon noch aktiv ist, solltest du es deaktivieren, sonst liegen zwei HUDs 
 
 **Portrait (links)**
 - Bild, Name, Stufe/Klasse bzw. HG/Kreaturtyp sowie TP (inkl. temporärer), RK und Zauber-SG.
-- Aktive Effekte erscheinen als kleine Symbole am Rand.
+- Aktive Zustände (Bloodied, Liegend, Vergiftet …) reihen sich oben rechts von rechts nach links auf. Zustände des Reittiers stehen klein neben seinem Namen.
 - Bei 0 TP erscheinen die Todesrettungswürfe. Ein Klick auf den Totenkopf würfelt.
 - Ein Klick aufs Bild öffnet den Charakterbogen.
 - Darüber liegt die Leiste **Rettungswürfe / Fertigkeiten / Werkzeuge**. Ein Klick klappt die Liste auf, und ein Klick auf einen Wert würfelt.

@@ -258,11 +258,10 @@ export class CombatHud {
     const img = this.token.document.texture?.src || actor.img;
     const dying = actor.type === "character" && (actor.system.attributes?.hp?.value ?? 1) <= 0;
 
-    const effects = (actor.temporaryEffects ?? [])
-      .filter((e) => e.img)
-      .slice(0, 12)
-      .map((e) => `<img class="ach-effect" src="${esc(e.img)}" data-tip="${esc(e.name)}" data-effect="${esc(e.id)}">`)
+    const effectIcons = (a, cls = "") => conditionsOf(a)
+      .map((e) => `<img class="ach-effect ${cls}" src="${esc(e.img)}" data-tip="${esc(e.name)}">`)
       .join("");
+    const effects = effectIcons(actor);
 
     const hpChip = (st) => `
       <div class="ach-chip ach-chip-hp" data-tip="${esc(t("Portrait.HPTip"))}">
@@ -285,6 +284,7 @@ export class CombatHud {
         <div class="ach-who ach-who-mount" data-action="sheet" data-target="mount" data-tip="${esc(t("Mount.OpenSheet"))}">
           <div class="ach-desc"><i class="fas fa-horse-head"></i> ${esc(t("Mount.Label"))} · ${esc(describeActor(mActor))}</div>
           <div class="ach-name">${esc(mount.name || mActor.name)}</div>
+          <div class="ach-effects-mount">${effectIcons(mActor, "small")}</div>
         </div>
         <div class="ach-stats ach-stats-mount">
           ${hpChip(ms)}
@@ -1135,6 +1135,25 @@ export class CombatHud {
 /* -------------------------------------------- */
 /*  Helfer                                      */
 /* -------------------------------------------- */
+
+/** Aktive Zustände/Effekte mit Symbol (Zustände, Bloodied, zeitlich begrenzte Effekte). */
+function conditionsOf(actor) {
+  if (!actor) return [];
+  const list = Array.from(actor.appliedEffects ?? actor.effects ?? []).filter((e) => !e.disabled && !e.isSuppressed);
+  const seen = new Set();
+  const out = [];
+  for (const e of list) {
+    const img = e.img ?? e.icon;
+    if (!img) continue;
+    const isStatus = (e.statuses?.size ?? 0) > 0;
+    if (!isStatus && !e.isTemporary) continue;
+    const key = `${e.name}|${img}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ name: e.name, img });
+  }
+  return out.slice(0, 16);
+}
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
