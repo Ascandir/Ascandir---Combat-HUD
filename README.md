@@ -41,10 +41,27 @@ Falls Argon noch aktiv ist, solltest du es deaktivieren, sonst liegen zwei HUDs 
 - Im Kampf wird ein Bereich nach der Nutzung ausgegraut, bis du wieder dran bist. Ein Klick auf das Banner setzt ihn von Hand zurück.
 - Beim Überfahren erscheint ein Pergament-Tooltip. Die Reichweite wird als Ring um den Token angezeigt.
 
-**Rechts**
-- **Waffensets I–III**: Waffe aus dem Charakterbogen auf ein Feld ziehen, Rechtsklick leert es. Beim Wechsel wird automatisch an- bzw. abgelegt.
-- **Zug beenden** (wenn du dran bist) bzw. **Kurze/Lange Rast** (außerhalb des Kampfes).
-- Mit dem kleinen Pfeil lässt sich das HUD einklappen.
+**Waffensets I–III** (zwischen Portrait und Würfe-Leiste): Waffe aus dem Charakterbogen auf ein Feld ziehen, Rechtsklick leert es. Beim Wechsel wird automatisch an- bzw. abgelegt.
+
+**Knöpfe über der Bewegung**: Charakterbogen, Initiative würfeln (zeigt danach den Wert), Kurze und Lange Rast (außerhalb des Kampfes).
+
+**Zug beenden** erscheint am Ende der Leiste, wenn du dran bist. Mit dem kleinen Pfeil lässt sich das HUD einklappen.
+
+## Einstellungen
+
+**Für jeden Spieler** (Moduleinstellungen, „Client“):
+- Design, automatische Skalierung, Größe, Tooltip-Größe
+- Portrait rechts (alles gespiegelt), frei verschieben (Griff zum Ziehen, Position wird gespeichert), Abstand zum Rand/unten
+- Beim Auswählen öffnen, im Kampf automatisch öffnen, Makroleiste/Spielerliste ausblenden
+- Ausblenden, wenn ungenutzt (Wartezeit und Deckkraft einstellbar)
+- Tooltips, Reichweitenring
+- Standardaktionen, Merkmale mit Ladungen direkt im Bereich, paarweise stapeln, leere Bereiche zeigen, Makro-Bereich
+
+**Für die Spielleitung** („Welt“):
+- Aktivitäten einzeln anzeigen (nie / nur Waffen / immer)
+- Nur vorbereitete Zauber, Waffensets ausrüsten
+- Bewegung zählen, Aktionen als verbraucht markieren
+- Reittier-Bereich anzeigen
 
 ## Reittier (mit „Ascandir - DnD5e Mounting“)
 

@@ -20,22 +20,46 @@ let hud = null;
 function registerSettings() {
   const rerender = () => hud?.render();
   const reg = (key, data) => game.settings.register(ID, key, { name: `ACH.Settings.${key}.Name`, hint: `ACH.Settings.${key}.Hint`, ...data });
+  const client = (key, type, def, extra = {}) => reg(key, { scope: "client", config: true, type, default: def, onChange: rerender, ...extra });
+  const world = (key, type, def, extra = {}) => reg(key, { scope: "world", config: true, type, default: def, onChange: rerender, ...extra });
 
-  reg("theme", { scope: "client", config: true, type: String, choices: themeChoices(), default: "rustic", onChange: rerender });
-  reg("scale", { scope: "client", config: true, type: Number, range: { min: 0.5, max: 1.5, step: 0.05 }, default: 0.85, onChange: rerender });
-  reg("left", { scope: "client", config: true, type: Number, range: { min: 0, max: 800, step: 5 }, default: 70, onChange: rerender });
-  reg("bottom", { scope: "client", config: true, type: Number, range: { min: 0, max: 400, step: 5 }, default: 10, onChange: rerender });
-  reg("openOnSelect", { scope: "client", config: true, type: Boolean, default: false });
-  reg("openOnCombat", { scope: "client", config: true, type: Boolean, default: true });
-  reg("hideFoundryUi", { scope: "client", config: true, type: Boolean, default: true, onChange: rerender });
-  reg("showTooltips", { scope: "client", config: true, type: Boolean, default: true });
-  reg("rangeRing", { scope: "client", config: true, type: Boolean, default: true });
-  reg("limitedFeaturesInBar", { scope: "client", config: true, type: Boolean, default: true, onChange: rerender });
-  reg("showEmptyPanels", { scope: "client", config: true, type: Boolean, default: false, onChange: rerender });
-  reg("hideUnprepared", { scope: "world", config: true, type: Boolean, default: true, onChange: rerender });
-  reg("switchEquip", { scope: "world", config: true, type: Boolean, default: true });
-  reg("trackMovement", { scope: "world", config: true, type: Boolean, default: true, onChange: rerender });
-  reg("trackEconomy", { scope: "world", config: true, type: Boolean, default: true, onChange: rerender });
+  // ---- Spieler (jeder für sich) ----
+  // Aussehen
+  client("theme", String, "rustic", { choices: themeChoices() });
+  client("autoScale", Boolean, true);
+  client("scale", Number, 1, { range: { min: 0.4, max: 1.6, step: 0.05 } });
+  client("tooltipScale", Number, 1, { range: { min: 0.6, max: 1.6, step: 0.05 } });
+  // Position
+  client("portraitRight", Boolean, false);
+  client("freePosition", Boolean, false);
+  client("left", Number, 70, { range: { min: 0, max: 1200, step: 5 } });
+  client("bottom", Number, 10, { range: { min: 0, max: 600, step: 5 } });
+  reg("freePos", { scope: "client", config: false, type: Object, default: {}, onChange: () => hud?.applyLayout() });
+  // Verhalten
+  client("openOnSelect", Boolean, false);
+  client("openOnCombat", Boolean, true);
+  client("hideFoundryUi", Boolean, true);
+  client("fadeOutInactive", Boolean, false);
+  client("fadeoutDelay", Number, 5, { range: { min: 1, max: 30, step: 1 } });
+  client("fadeoutOpacity", Number, 0.35, { range: { min: 0.05, max: 1, step: 0.05 } });
+  client("showTooltips", Boolean, true);
+  client("rangeRing", Boolean, true);
+  // Inhalt
+  client("showBasicActions", Boolean, true);
+  client("limitedFeaturesInBar", Boolean, true);
+  client("condenseFeatures", Boolean, true);
+  client("showEmptyPanels", Boolean, false);
+  client("macroPanel", Boolean, false);
+
+  // ---- Spielleitung (für alle) ----
+  world("explodeActivities", String, "never", {
+    choices: { never: "ACH.Settings.explodeActivities.never", "only-weapons": "ACH.Settings.explodeActivities.weapons", always: "ACH.Settings.explodeActivities.always" }
+  });
+  world("hideUnprepared", Boolean, true);
+  world("switchEquip", Boolean, true);
+  world("trackMovement", Boolean, true);
+  world("trackEconomy", Boolean, true);
+  world("mountPanel", Boolean, true);
 }
 
 /* -------------------------------------------- */
@@ -91,6 +115,12 @@ Hooks.once("setup", () => {
 
 Hooks.once("ready", () => {
   hud = new CombatHud();
+  let resizeT = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(() => hud?.rendered && hud.render(), 150);
+  });
+  Hooks.on("collapseSidebar", () => hud?.rendered && hud.render());
   registerMovementHooks((doc) => {
     if (!hud?.rendered) return;
     if (!doc || doc === hud.token?.document) hud.render();
@@ -162,6 +192,8 @@ Hooks.on("combatStart", (combat) => {
   hud?.render();
 });
 Hooks.on("combatTurnChange", (combat) => onTurn(combat));
+Hooks.on("updateCombatant", () => hud?.render());
+Hooks.on("createCombatant", () => hud?.render());
 Hooks.on("updateCombat", (combat, changes) => {
   if ("turn" in changes || "round" in changes) onTurn(combat);
   else hud?.render();

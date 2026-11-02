@@ -137,26 +137,107 @@ export class CombatHud {
       document.body.appendChild(this.root);
     }
     const theme = getTheme(setting("theme"));
-    this.root.className = `ach-hud ach-theme-${theme.id}${this.minimized ? " ach-min" : ""}${this.mountDoc ? " ach-mounted" : ""}`;
-    this.root.style.setProperty("--ach-scale", setting("scale") ?? 1);
-    this.root.style.setProperty("--ach-left", `${setting("left") ?? 120}px`);
-    this.root.style.setProperty("--ach-bottom", `${setting("bottom") ?? 10}px`);
+    const flip = !!setting("portraitRight");
+    this.root.className = `ach-hud ach-theme-${theme.id}${this.minimized ? " ach-min" : ""}${this.mountDoc ? " ach-mounted" : ""}${flip ? " ach-flip" : ""}${setting("freePosition") ? " ach-free" : ""}`;
 
     this.root.innerHTML = `
       <div class="ach-body">
         ${this._portraitHTML()}
-        ${this._movementHTML()}
+        <section class="ach-utilcol">
+          ${this._utilHTML()}
+          ${this._movementHTML()}
+        </section>
         <div class="ach-panels">${this._panelsHTML()}</div>
         ${this._sideHTML()}
       </div>
+      ${setting("freePosition") ? `<div class="ach-grip" data-tip="${esc(t("Hud.Drag"))}"><i class="fas fa-up-down-left-right"></i></div>` : ""}
       <button type="button" class="ach-minbtn" data-action="minimize" data-tip="${esc(t(this.minimized ? "Hud.Expand" : "Hud.Minimize"))}">
         <i class="fas ${this.minimized ? "fa-chevron-up" : "fa-chevron-down"}"></i>
       </button>`;
 
     document.body.classList.add("ach-open");
     document.body.classList.toggle("ach-hide-ui", !!setting("hideFoundryUi"));
+    this.applyLayout();
     this.updateControlButton();
     this._positionFlyout();
+    this._armFade();
+  }
+
+  /** Position und Größe anwenden (fest, gespiegelt oder frei verschoben). */
+  applyLayout() {
+    const root = this.root;
+    if (!root) return;
+    const flip = !!setting("portraitRight");
+    const free = !!setting("freePosition");
+    const offset = Number(setting("left")) || 0;
+    const bottom = Number(setting("bottom")) || 0;
+    const sidebar = document.getElementById("sidebar");
+    const sidebarW = flip && sidebar ? sidebar.getBoundingClientRect().width : 0;
+
+    // Größe
+    let scale = Number(setting("scale")) || 1;
+    if (setting("autoScale")) {
+      scale *= Math.min(1.4, Math.max(0.55, window.innerWidth / 1920));
+      const body = root.querySelector(".ach-body");
+      const natural = (body?.offsetWidth ?? 0) + 40;
+      const avail = window.innerWidth - (free ? 20 : offset + sidebarW + 20);
+      if (natural * scale > avail && natural > 0) scale = Math.max(0.4, avail / natural);
+    }
+    this._scale = scale;
+    root.style.setProperty("--ach-scale", scale);
+    root.style.setProperty("--ach-fade-opacity", setting("fadeoutOpacity") ?? 0.35);
+
+    root.style.left = root.style.right = root.style.top = "";
+    if (free) {
+      const pos = setting("freePos") ?? {};
+      root.style.transformOrigin = "bottom left";
+      root.style.left = `${Number(pos.left ?? offset)}px`;
+      root.style.bottom = `${Number(pos.bottom ?? bottom)}px`;
+    } else if (flip) {
+      root.style.transformOrigin = "bottom right";
+      root.style.right = `${offset + sidebarW}px`;
+      root.style.bottom = `${bottom}px`;
+    } else {
+      root.style.transformOrigin = "bottom left";
+      root.style.left = `${offset}px`;
+      root.style.bottom = `${bottom}px`;
+    }
+  }
+
+  /* --- Ausblenden, wenn die Maus nicht drüber ist --- */
+  _armFade() {
+    clearTimeout(this._fadeTimer);
+    if (!setting("fadeOutInactive") || !this.root) return this.root?.classList.remove("ach-faded");
+    if (this.root.matches(":hover")) return;
+    this._fadeTimer = setTimeout(() => this.root?.classList.add("ach-faded"), (Number(setting("fadeoutDelay")) || 5) * 1000);
+  }
+
+  /* --- Frei verschieben --- */
+  _startDrag(ev) {
+    ev.preventDefault();
+    const root = this.root;
+    const rect = root.getBoundingClientRect();
+    const startX = ev.clientX;
+    const startY = ev.clientY;
+    const startLeft = rect.left;
+    const startBottom = window.innerHeight - rect.bottom;
+    root.style.transformOrigin = "bottom left";
+    root.style.right = "";
+    const move = (e) => {
+      const left = Math.max(0, Math.min(window.innerWidth - 60, startLeft + e.clientX - startX));
+      const bottom = Math.max(0, Math.min(window.innerHeight - 60, startBottom - (e.clientY - startY)));
+      root.style.left = `${left}px`;
+      root.style.bottom = `${bottom}px`;
+      this._dragPos = { left: Math.round(left), bottom: Math.round(bottom) };
+    };
+    const up = async () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      if (this._dragPos) await game.settings.set(ID, "freePos", this._dragPos);
+      this._dragPos = null;
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
   }
 
   reg(obj) {
@@ -226,6 +307,7 @@ export class CombatHud {
     return `
       <section class="ach-portrait-col">
         ${this._drawerHTML()}
+        ${this._setsHTML()}
         <div class="ach-portrait ${mActor ? "is-mounted" : ""} ${dying ? "is-dying" : ""}">
           <div class="ach-portrait-img" style="background-image:url('${esc(img)}')" data-action="sheet" data-target="rider"></div>
           <div class="ach-effects">${effects}</div>
@@ -315,7 +397,7 @@ export class CombatHud {
     const inCombat = !!game.combat?.started;
 
     let cells = "";
-    if (totalSq <= 24) {
+    if (totalSq <= 36) {
       for (let i = totalSq - 1; i >= 0; i--) {
         const isDash = i >= baseSq;
         const spentCell = i >= leftSq;
@@ -327,7 +409,7 @@ export class CombatHud {
     const icon = { fly: "fa-dove", swim: "fa-water", climb: "fa-mountain", burrow: "fa-worm" }[mode] ?? (this.mountDoc ? "fa-horse" : "fa-person-walking");
     return `
       <section class="ach-movement ${over ? "over" : ""}" data-tip="${esc(t("Move.Tip", { left: Math.round(left), total, units: canvas.scene?.grid?.units ?? "ft" }))}">
-        <div class="ach-move-cells ${totalSq > 12 ? "two-col" : ""}">${cells}</div>
+        <div class="ach-move-cells ${totalSq > 10 ? "two-col" : ""}">${cells}</div>
         <div class="ach-move-num"><b>${inCombat ? leftSq : totalSq}</b><i class="fas ${icon}"></i></div>
         <div class="ach-move-total">${Math.round(inCombat ? left : total)}</div>
       </section>`;
@@ -345,7 +427,8 @@ export class CombatHud {
   _buildPanels() {
     const panels = this._buildPanelsRaw();
     for (const p of panels) p.tiles = p.tiles.filter(Boolean);
-    return panels.filter((p) => p.tiles.length || p.id === "action" || p.id === "mount" || setting("showEmptyPanels"));
+    return panels.filter((p) => p.tiles.length || p.id === "action" || p.id === "mount" || setting("showEmptyPanels"))
+      .filter((p) => p.id !== "mount" || setting("mountPanel"));
   }
 
   _buildPanelsRaw() {
@@ -367,7 +450,7 @@ export class CombatHud {
       tiles.push(...this._barTiles(actor, c.barFeatures));
       if (c.features.length) tiles.push(this._catTile("features", t("Cat.Features"), "fas fa-hand-fist", [{ entries: c.features }], { actor }));
       if (c.items.length) tiles.push(this._catTile("items", t("Cat.Items"), "fas fa-flask", [{ entries: c.items }], { actor }));
-      tiles.push(this._basicCat(actor, BASIC_ACTIONS.map((a) => a.id), null));
+      if (setting("showBasicActions")) tiles.push(this._basicCat(actor, BASIC_ACTIONS.map((a) => a.id), null));
       panels.push({ id: "action", label: t("Panel.Action"), tiles });
     }
 
@@ -447,6 +530,14 @@ export class CombatHud {
       }
       panels.push({ id, label: t(`Panel.${cap(id)}`), tiles, pips });
     }
+    // --- Makros (wie die Makroleiste) ---
+    if (setting("macroPanel")) {
+      const macros = (game.user.getHotbarMacros?.(1) ?? []).filter((m) => m.macro);
+      if (macros.length) {
+        const tiles = macros.map(({ macro }) => ({ kind: "macro", macro, key: this.reg({ type: "macro", macro }) }));
+        panels.push({ id: "macros", label: t("Panel.Macros"), tiles });
+      }
+    }
     return panels;
   }
 
@@ -485,6 +576,7 @@ export class CombatHud {
 
   _barTiles(actor, entries, { mount = false } = {}) {
     if (!entries.length) return [];
+    if (!setting("condenseFeatures")) return entries.map((e) => this._entryTile(e, actor, { mount }));
     const tiles = [];
     for (let i = 0; i < entries.length; i += 2) {
       const a = this._entryTile(entries[i], actor, { mount });
@@ -539,6 +631,11 @@ export class CombatHud {
             <span class="ach-tile-label">${esc(e.label ?? e.item.name)}</span>
           </div>`;
       }
+      case "macro":
+        return `
+          <div class="ach-tile ach-tile-item ach-tile-macro" data-key="${tile.key}" data-tip="${esc(tile.macro.name)}" style="background-image:url('${esc(tile.macro.img)}')">
+            <span class="ach-tile-label">${esc(tile.macro.name)}</span>
+          </div>`;
       case "basic": {
         const a = tile.action;
         return `
@@ -596,7 +693,10 @@ export class CombatHud {
     requestAnimationFrame(() => {
       const r = fly.getBoundingClientRect();
       const over = r.right - window.innerWidth + 8;
-      if (over > 0) fly.style.left = `${Math.max(-panel.offsetLeft, offset - 8 - over / (Number(setting("scale")) || 1))}px`;
+      const sc = this._scale || 1;
+      if (over > 0) fly.style.left = `${offset - 8 - over / sc}px`;
+      const r2 = fly.getBoundingClientRect();
+      if (r2.left < 8) fly.style.left = `${parseFloat(fly.style.left) + (8 - r2.left) / sc}px`;
     });
   }
 
@@ -604,10 +704,10 @@ export class CombatHud {
   /*  Seitenleiste: Waffensets, Zug beenden, Rast */
   /* -------------------------------------------- */
 
-  _sideHTML() {
+  _setsHTML() {
     const actor = this.actor;
     const sets = getWeaponSets(actor);
-    const setHTML = ["1", "2", "3"].map((n) => {
+    const html = ["1", "2", "3"].map((n) => {
       const s = sets.sets[n] ?? {};
       const slot = (which) => {
         const item = actor.items.get(s[which] ?? "");
@@ -618,24 +718,31 @@ export class CombatHud {
           <span class="ach-set-num">${["I", "II", "III"][Number(n) - 1]}</span>${slot("primary")}${slot("secondary")}
         </div>`;
     }).join("");
+    return `<div class="ach-sets">${html}</div>`;
+  }
 
+  _utilHTML() {
+    const c = game.combat;
+    const combatant = c?.combatants?.find?.((cb) => cb.tokenId === this.token.id) ?? null;
+    const ini = combatant?.initiative;
+    const btn = (action, icon, tip, extra = "") => `<button type="button" data-action="${action}" data-tip="${esc(tip)}">${extra || `<i class="${icon}"></i>`}</button>`;
+    let html = btn("sheet-rider", "fas fa-scroll", t("Hud.Sheet"));
+    html += btn("initiative", "fas fa-dice-d20", ini != null ? t("Hud.InitiativeValue", { value: ini }) : t("Hud.Initiative"),
+      ini != null ? `<i class="fas fa-dice-d20"></i><b>${Math.round(ini)}</b>` : "");
+    if (!c?.started) {
+      html += btn("short-rest", "fas fa-mug-hot", loc("DND5E.REST.Short.Label") || t("Hud.ShortRest"));
+      html += btn("long-rest", "fas fa-campground", loc("DND5E.REST.Long.Label") || t("Hud.LongRest"));
+    }
+    return `<div class="ach-util">${html}</div>`;
+  }
+
+  _sideHTML() {
     const c = game.combat;
     const myTurn = c?.started && c.combatant?.tokenId === this.token.id && (c.combatant?.isOwner || game.user.isGM);
-    const inCombat = !!c?.started;
-    let buttons = "";
-    if (myTurn) {
-      buttons = `<button type="button" class="ach-endturn" data-action="end-turn"><i class="fas fa-hourglass-end"></i><span>${esc(t("Hud.EndTurn"))}</span></button>`;
-    } else if (!inCombat) {
-      buttons = `
-        <div class="ach-rest">
-          <button type="button" data-action="short-rest" data-tip="${esc(loc("DND5E.REST.Short.Label") || t("Hud.ShortRest"))}"><i class="fas fa-mug-hot"></i></button>
-          <button type="button" data-action="long-rest" data-tip="${esc(loc("DND5E.REST.Long.Label") || t("Hud.LongRest"))}"><i class="fas fa-campground"></i></button>
-        </div>`;
-    }
+    if (!myTurn) return "";
     return `
       <section class="ach-side">
-        <div class="ach-sets" data-tip="${esc(t("Sets.Tip"))}">${setHTML}</div>
-        ${buttons}
+        <button type="button" class="ach-endturn" data-action="end-turn"><i class="fas fa-hourglass-end"></i><span>${esc(t("Hud.EndTurn"))}</span></button>
       </section>`;
   }
 
@@ -650,6 +757,15 @@ export class CombatHud {
     root.addEventListener("mouseleave", () => {
       this.hideTip();
       this.clearRing();
+      this._hoverKey = null;
+      this._armFade();
+    });
+    root.addEventListener("mouseenter", () => {
+      clearTimeout(this._fadeTimer);
+      root.classList.remove("ach-faded");
+    });
+    root.addEventListener("pointerdown", (ev) => {
+      if (ev.button === 0 && ev.target.closest(".ach-grip")) this._startDrag(ev);
     });
     root.addEventListener("dragover", (ev) => {
       if (ev.target.closest("[data-drop]")) {
@@ -692,6 +808,10 @@ export class CombatHud {
         if (who?.testUserPermission?.(game.user, "OBSERVER")) who.sheet.render(true);
         return;
       }
+      case "sheet-rider":
+        return this.actor.sheet?.render(true);
+      case "initiative":
+        return this._rollInitiative(ev);
       case "death":
         return roll(this.actor, "death", null, ev);
       case "toggle-used": {
@@ -715,6 +835,20 @@ export class CombatHud {
     }
   }
 
+  async _rollInitiative(ev) {
+    const actor = this.actor;
+    try {
+      if (game.combat) {
+        const cb = game.combat.combatants.find((c) => c.tokenId === this.token.id);
+        if (cb && cb.initiative != null) return ui.notifications.info(t("Hud.InitiativeDone", { value: cb.initiative }));
+      }
+      if (actor.rollInitiativeDialog) return await actor.rollInitiativeDialog({ event: ev });
+      return await actor.rollInitiative({ createCombatants: true });
+    } catch (err) {
+      console.error(`${ID} |`, err);
+    }
+  }
+
   async _onKey(obj, el, ev) {
     switch (obj.type) {
       case "roll":
@@ -732,6 +866,8 @@ export class CombatHud {
         return this._useEntry(obj, ev);
       case "basic":
         return this._useBasic(obj);
+      case "macro":
+        return obj.macro?.execute?.();
     }
   }
 
@@ -741,7 +877,9 @@ export class CombatHud {
     this.hideTip();
     let result;
     try {
-      result = entry.activity ? await entry.activity.use({ event: ev }, { event: ev }) : await entry.item.use?.({ event: ev });
+      result = entry.activity && !entry.multi
+        ? await entry.activity.use({ event: ev }, { event: ev })
+        : await entry.item.use?.({ event: ev, legacy: false }, { event: ev });
     } catch (err) {
       console.error(`${ID} |`, err);
       return;
@@ -925,7 +1063,7 @@ export class CombatHud {
     }
     const theme = getTheme(setting("theme"));
     this.tip.className = `ach-tooltip ach-theme-${theme.id} ${rich ? "rich" : "plain"}`;
-    this.tip.style.setProperty("--ach-tip-scale", setting("scale") ?? 1);
+    this.tip.style.setProperty("--ach-tip-scale", Number(setting("tooltipScale")) || 1);
     this.tip.innerHTML = html;
     this.tip.style.visibility = "hidden";
     this.tip.style.display = "block";

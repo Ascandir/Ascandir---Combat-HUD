@@ -22,7 +22,12 @@
       "OpportunityAttack": "Opportunity attack",
       "EndTurn": "End turn",
       "ShortRest": "Short rest",
-      "LongRest": "Long rest"
+      "LongRest": "Long rest",
+      "Drag": "Drag to move",
+      "Sheet": "Open character sheet",
+      "Initiative": "Roll initiative",
+      "InitiativeValue": "Initiative: {value}",
+      "InitiativeDone": "Initiative already rolled ({value})."
     },
     "Portrait": {
       "HP": "HP",
@@ -60,7 +65,8 @@
       "Special": "Special",
       "Legendary": "Legendary",
       "Lair": "Lair",
-      "Mythic": "Mythic"
+      "Mythic": "Mythic",
+      "Macros": "Macros"
     },
     "Cat": {
       "Weapons": "Weapons",
@@ -145,12 +151,12 @@
         "Hint": "Look of the combat HUD. Other modules (e.g. the Themer) can add more themes."
       },
       "scale": {
-        "Name": "Scale",
-        "Hint": "Size of the HUD."
+        "Name": "Size",
+        "Hint": "Base size of the HUD (1 = normal)."
       },
       "left": {
-        "Name": "Left offset (px)",
-        "Hint": "Distance from the left screen edge."
+        "Name": "Edge offset (px)",
+        "Hint": "Distance from the left edge (or from the right edge next to the sidebar when the portrait is on the right)."
       },
       "bottom": {
         "Name": "Bottom offset (px)",
@@ -199,6 +205,57 @@
       "trackEconomy": {
         "Name": "Mark actions as used",
         "Hint": "After use, Action/Bonus/Reaction/Mount is greyed out until your next turn."
+      },
+      "autoScale": {
+        "Name": "Auto scale",
+        "Hint": "Adapts the size to the screen width and shrinks the HUD if it doesn't fit. The size below applies on top."
+      },
+      "tooltipScale": {
+        "Name": "Tooltip size",
+        "Hint": "Size of the parchment tooltips."
+      },
+      "portraitRight": {
+        "Name": "Portrait on the right (mirrored)",
+        "Hint": "Places the HUD on the right edge: portrait on the right, all panels in mirrored order."
+      },
+      "freePosition": {
+        "Name": "Free positioning",
+        "Hint": "Shows a handle to drag the HUD anywhere. The position is saved. Turning it off snaps it back to the edge."
+      },
+      "fadeOutInactive": {
+        "Name": "Fade out when idle",
+        "Hint": "The HUD turns transparent while the mouse isn't over it."
+      },
+      "fadeoutDelay": {
+        "Name": "Fade out after (seconds)",
+        "Hint": "Delay before the HUD fades."
+      },
+      "fadeoutOpacity": {
+        "Name": "Faded opacity",
+        "Hint": "How visible the HUD stays while faded."
+      },
+      "showBasicActions": {
+        "Name": "Show basic actions",
+        "Hint": "Shows the folder with Dash, Disengage, Dodge etc. in the Action panel."
+      },
+      "condenseFeatures": {
+        "Name": "Stack features in pairs",
+        "Hint": "Limited-use features are shown as two half tiles to save space."
+      },
+      "macroPanel": {
+        "Name": "Macro panel",
+        "Hint": "Shows the macros of the first hotbar page as a panel in the HUD."
+      },
+      "explodeActivities": {
+        "Name": "Show activities separately",
+        "Hint": "If an item has several activities (e.g. attack and damage), they can appear as separate tiles. With 'Never' there is one tile and Foundry asks which activity on click.",
+        "never": "Never",
+        "weapons": "Weapons only",
+        "always": "Always"
+      },
+      "mountPanel": {
+        "Name": "Show mount panel",
+        "Hint": "While riding (Ascandir - DnD5e Mounting), shows the 'Mount' panel with the mount's actions."
       }
     }
   }

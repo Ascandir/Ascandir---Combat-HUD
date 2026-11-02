@@ -45,8 +45,16 @@ export function entriesForItem(item, types) {
   const all = activitiesOf(item).filter((a) => a.type !== "cast");
   const matching = all.filter((a) => types.includes(activationOf(a)));
   if (!matching.length) return [];
-  if (matching.length === 1) return [{ item, activity: matching[0], label: item.name }];
-  return matching.map((activity) => ({ item, activity, label: `${activity.name || item.name} (${item.name})` }));
+  const mode = setting("explodeActivities") ?? "never";
+  const explode = matching.length > 1 && (mode === "always" || (mode === "only-weapons" && item.type === "weapon"));
+  if (explode) {
+    return matching.map((activity) => ({
+      item, activity,
+      label: activity.name && activity.name !== item.name ? `${item.name}: ${activity.name}` : item.name
+    }));
+  }
+  const preferred = matching.find((a) => a.type === "attack") ?? matching[0];
+  return [{ item, activity: preferred, label: item.name, multi: matching.length > 1 }];
 }
 
 const SORT = (a, b) => (a.item.sort ?? 0) - (b.item.sort ?? 0) || a.label.localeCompare(b.label);

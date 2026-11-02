@@ -93,11 +93,12 @@
 /* ---------- Grundgerüst ---------- */
 .ach-hud {
   position: fixed;
-  left: var(--ach-left, 70px);
-  bottom: var(--ach-bottom, 10px);
+  left: 70px;
+  bottom: 10px;
   z-index: 60;
   transform: scale(var(--ach-scale, 1));
   transform-origin: bottom left;
+  transition: opacity 0.4s ease;
   font-family: var(--ach-font-body);
   color: var(--ach-text);
   pointer-events: none;
@@ -478,10 +479,8 @@ body.ach-hide-ui #players {
 
 /* ---------- Bewegung ---------- */
 .ach-movement {
-  width: 48px;
-  align-self: stretch;
-  max-height: 150px;
-  margin-top: auto;
+  width: 56px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -494,24 +493,25 @@ body.ach-hide-ui #players {
   box-shadow: var(--ach-frame-shadow);
 }
 .ach-move-cells {
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 2px;
-  width: 22px;
+  gap: 3px;
+  width: 30px;
 }
 .ach-move-cells.two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-flow: row;
   align-content: end;
-  width: 32px;
+  gap: 3px;
+  width: 44px;
 }
 .ach-sq {
-  height: 9px;
-  min-height: 5px;
-  flex: 0 1 9px;
+  height: 10px;
+  min-height: 10px;
+  flex: 0 0 10px;
   background: radial-gradient(ellipse at center, #ffe3a3, var(--ach-move) 70%);
   border: 1px solid #3a2109;
   border-radius: 1px;
@@ -535,9 +535,9 @@ body.ach-hide-ui #players {
 .ach-move-num {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 19px;
   color: var(--ach-move);
 }
 .ach-move-num i {
@@ -867,29 +867,25 @@ body.ach-hide-ui #players {
   border-color: var(--ach-banner-text);
 }
 
-/* ---------- Seitenleiste ---------- */
-.ach-side {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-self: flex-end;
-  margin-bottom: 26px;
-}
+/* ---------- Waffensets (über dem Portrait) ---------- */
 .ach-sets {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 5px;
+  gap: 4px;
+  margin-bottom: 4px;
+  padding: 4px;
   background: var(--ach-bg-panel);
   border: 2px solid var(--ach-frame);
   border-radius: var(--ach-radius);
   box-shadow: var(--ach-frame-shadow);
 }
 .ach-set {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px 1px;
   border: 1px solid transparent;
   cursor: pointer;
   opacity: 0.55;
@@ -903,27 +899,73 @@ body.ach-hide-ui #players {
   background: rgba(240, 201, 131, 0.1);
 }
 .ach-set-num {
-  width: 18px;
+  width: 10px;
   font-family: var(--ach-font-head);
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
   color: var(--ach-frame-hi);
 }
 .ach-set-slot {
-  width: 30px;
-  height: 30px;
+  flex: 0 0 auto;
+  width: 27px;
+  height: 27px;
   background-color: rgba(0, 0, 0, 0.5);
   background-size: cover;
   border: 1px solid var(--ach-frame);
   border-radius: 2px;
 }
 .ach-set-slot.secondary {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
 }
 .ach-set-slot.drag-over,
 .ach-tile.drag-over {
   box-shadow: 0 0 0 2px var(--ach-frame-hi), 0 0 10px var(--ach-frame-hi);
+}
+
+/* ---------- Knöpfe über der Bewegung ---------- */
+.ach-utilcol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: flex-end;
+}
+.ach-util {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ach-util button {
+  width: 56px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 15px;
+  color: var(--ach-text);
+  background: var(--ach-bg-panel);
+  border: 2px solid var(--ach-frame);
+  border-radius: var(--ach-radius);
+  box-shadow: var(--ach-shadow);
+}
+.ach-util button b {
+  font-size: 14px;
+  color: var(--ach-highlight);
+}
+.ach-util button:hover {
+  color: var(--ach-frame-hi);
+  filter: brightness(1.15);
+}
+
+/* ---------- Zug beenden ---------- */
+.ach-side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: flex-end;
+  margin-bottom: 26px;
 }
 .ach-endturn {
   display: flex;
@@ -947,22 +989,6 @@ body.ach-hide-ui #players {
 .ach-endturn:hover {
   filter: brightness(1.15);
 }
-.ach-rest {
-  display: flex;
-  gap: 4px;
-}
-.ach-rest button {
-  flex: 1;
-  height: 34px;
-  color: var(--ach-text);
-  background: var(--ach-bg-panel);
-  border: 2px solid var(--ach-frame);
-  border-radius: var(--ach-radius);
-  box-shadow: var(--ach-shadow);
-}
-.ach-rest button:hover {
-  color: var(--ach-frame-hi);
-}
 
 /* ---------- Minimieren ---------- */
 .ach-minbtn {
@@ -980,7 +1006,8 @@ body.ach-hide-ui #players {
 }
 .ach-hud.ach-min .ach-panels,
 .ach-hud.ach-min .ach-side,
-.ach-hud.ach-min .ach-movement,
+.ach-hud.ach-min .ach-utilcol,
+.ach-hud.ach-min .ach-sets,
 .ach-hud.ach-min .ach-drawer,
 .ach-hud.ach-min .ach-drawer-head,
 .ach-hud.ach-min .ach-effects,
@@ -1143,6 +1170,83 @@ body.ach-hide-ui #players {
   place-items: center;
   font-size: 15px;
   color: rgba(60, 6, 3, 0.75);
+}
+
+/* Tooltip-Texte immer dunkel (auch angereicherte Texte von dnd5e) */
+.ach-tooltip {
+  zoom: var(--ach-tip-scale, 1);
+}
+.ach-tooltip.rich,
+.ach-tooltip.rich *,
+.ach-tooltip.plain,
+.ach-tooltip.plain * {
+  color: #000 !important;
+}
+.ach-tooltip.rich .ach-tip-title {
+  color: #4a0c07 !important;
+}
+.ach-tooltip.rich .ach-tip-details dt {
+  opacity: 1;
+}
+.ach-tooltip.rich .ach-tip-props span.primary {
+  background: rgba(156, 31, 23, 0.18);
+  border-color: #6b130d;
+}
+.ach-tooltip.rich .ach-tip-desc :is(strong, em, span, a, .reference, .content-link, .inline-roll, .roll-link, enriched-tooltip) {
+  background-color: transparent !important;
+  text-shadow: none !important;
+}
+.ach-tooltip.rich .ach-tip-head img {
+  background: #fff3;
+}
+
+/* ---------- Gespiegelt (Portrait rechts) ---------- */
+.ach-hud.ach-flip .ach-body,
+.ach-hud.ach-flip .ach-panels {
+  flex-direction: row-reverse;
+}
+.ach-hud.ach-flip .ach-drawer {
+  left: auto;
+  right: 0;
+}
+.ach-hud.ach-flip .ach-minbtn {
+  right: auto;
+  left: -30px;
+}
+.ach-hud.ach-flip .ach-effects {
+  right: auto;
+  left: 6px;
+}
+.ach-hud.ach-flip.ach-min .ach-minbtn {
+  left: auto;
+  right: calc(214px + 6px);
+}
+
+/* ---------- Frei verschieben ---------- */
+.ach-grip {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 28px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  cursor: move;
+  color: var(--ach-text);
+  background: var(--ach-bg-panel);
+  border: 1px solid var(--ach-frame-hi);
+  border-radius: 2px;
+  box-shadow: var(--ach-shadow);
+}
+.ach-hud.ach-flip .ach-grip {
+  left: auto;
+  right: 0;
+}
+
+/* ---------- Ausblenden ---------- */
+.ach-hud.ach-faded {
+  opacity: var(--ach-fade-opacity, 0.35);
 }
 
 /* ---------- Chatkarte für Standardaktionen ---------- */

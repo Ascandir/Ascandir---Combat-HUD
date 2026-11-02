@@ -22,7 +22,12 @@
       "OpportunityAttack": "Gelegenheitsangriff",
       "EndTurn": "Zug beenden",
       "ShortRest": "Kurze Rast",
-      "LongRest": "Lange Rast"
+      "LongRest": "Lange Rast",
+      "Drag": "Ziehen zum Verschieben",
+      "Sheet": "Charakterbogen öffnen",
+      "Initiative": "Initiative würfeln",
+      "InitiativeValue": "Initiative: {value}",
+      "InitiativeDone": "Initiative ist schon gewürfelt ({value})."
     },
     "Portrait": {
       "HP": "TP",
@@ -60,7 +65,8 @@
       "Special": "Spezial",
       "Legendary": "Legendär",
       "Lair": "Hort",
-      "Mythic": "Mythisch"
+      "Mythic": "Mythisch",
+      "Macros": "Makros"
     },
     "Cat": {
       "Weapons": "Waffen",
@@ -146,11 +152,11 @@
       },
       "scale": {
         "Name": "Größe",
-        "Hint": "Skalierung des HUDs."
+        "Hint": "Grundgröße des HUDs (1 = normal)."
       },
       "left": {
-        "Name": "Abstand links (px)",
-        "Hint": "Abstand vom linken Bildschirmrand."
+        "Name": "Abstand zum Rand (px)",
+        "Hint": "Abstand vom linken Rand (bzw. vom rechten Rand neben der Seitenleiste, wenn das Portrait rechts ist)."
       },
       "bottom": {
         "Name": "Abstand unten (px)",
@@ -199,6 +205,57 @@
       "trackEconomy": {
         "Name": "Aktionen als verbraucht markieren",
         "Hint": "Nach dem Nutzen wird Aktion/Bonusaktion/Reaktion/Reittier bis zum nächsten eigenen Zug ausgegraut."
+      },
+      "autoScale": {
+        "Name": "Automatisch skalieren",
+        "Hint": "Passt die Größe an die Bildschirmbreite an und verkleinert das HUD, falls es nicht ganz auf den Bildschirm passt. Die Größe unten wirkt zusätzlich."
+      },
+      "tooltipScale": {
+        "Name": "Tooltip-Größe",
+        "Hint": "Größe der Pergament-Tooltips."
+      },
+      "portraitRight": {
+        "Name": "Portrait rechts (gespiegelt)",
+        "Hint": "Setzt das HUD an den rechten Rand: Portrait rechts, alle Bereiche in gespiegelter Reihenfolge."
+      },
+      "freePosition": {
+        "Name": "Frei verschieben",
+        "Hint": "Blendet einen Griff am HUD ein, mit dem du es an jede beliebige Stelle ziehen kannst. Die Position wird gespeichert. Ausschalten setzt es wieder an den Rand."
+      },
+      "fadeOutInactive": {
+        "Name": "Ausblenden, wenn ungenutzt",
+        "Hint": "Das HUD wird durchsichtig, solange die Maus nicht darüber ist."
+      },
+      "fadeoutDelay": {
+        "Name": "Ausblenden nach (Sekunden)",
+        "Hint": "Wartezeit, bevor das HUD durchsichtig wird."
+      },
+      "fadeoutOpacity": {
+        "Name": "Deckkraft beim Ausblenden",
+        "Hint": "Wie sichtbar das HUD im ausgeblendeten Zustand bleibt."
+      },
+      "showBasicActions": {
+        "Name": "Standardaktionen anzeigen",
+        "Hint": "Zeigt den Ordner mit Spurten, Rückzug, Ausweichen usw. im Bereich Aktion."
+      },
+      "condenseFeatures": {
+        "Name": "Merkmale paarweise stapeln",
+        "Hint": "Merkmale mit Ladungen werden als zwei halbe Kacheln übereinander angezeigt, um Platz zu sparen."
+      },
+      "macroPanel": {
+        "Name": "Makro-Bereich",
+        "Hint": "Zeigt die Makros der ersten Makroleisten-Seite als eigenen Bereich im HUD."
+      },
+      "explodeActivities": {
+        "Name": "Aktivitäten einzeln anzeigen",
+        "Hint": "Hat ein Gegenstand mehrere Aktivitäten (z. B. Angriff und Schaden), können sie als eigene Kacheln erscheinen. Bei „Nie“ gibt es eine Kachel und Foundry fragt beim Klick, welche Aktivität.",
+        "never": "Nie",
+        "weapons": "Nur Waffen",
+        "always": "Immer"
+      },
+      "mountPanel": {
+        "Name": "Reittier-Bereich anzeigen",
+        "Hint": "Zeigt beim Reiten (Ascandir - DnD5e Mounting) den Bereich „Reittier“ mit den Aktionen des Reittiers."
       }
     }
   }
