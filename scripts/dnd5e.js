@@ -511,6 +511,9 @@ const RESOURCE_KINDS = [
   { kind: "inspiration", re: /heroic inspiration|heldenhafte inspiration/i }
 ];
 
+/** Ressourcen-Pools, die im Ressourcen-Fenster erscheinen. */
+const POOL_KINDS = ["ki", "divinity", "sorcery", "superiority", "psionic"];
+
 export const RESOURCE_ICONS = {
   ki: "fas fa-yin-yang",
   divinity: "fas fa-sun",
@@ -551,8 +554,9 @@ export function resourcesData(actor) {
     const max = Number(u.max);
     const value = u.value ?? Math.max(0, max - (u.spent ?? 0));
     const kind = resourceKind(item.name, item.system.identifier);
-    // Nur echte Klassen-Ressourcen (Ki, Göttliche Macht, Kampfrausch …), keine sonstigen Merkmale mit Ladungen
-    if (kind === "generic") continue;
+    // Nur Ressourcen-Pools, die von mehreren Fähigkeiten verbraucht werden (Ki, Göttliche Macht, Zaubereipunkte …).
+    // Einzelne Fähigkeiten zeigen ihre Ladungen schon an der eigenen Kachel.
+    if (!POOL_KINDS.includes(kind)) continue;
     res.push({ name: item.name, value, max, kind, id: item.id, sort: item.sort ?? 0 });
   }
   // Alte Ressourcenfelder (primär/sekundär/tertiär)
