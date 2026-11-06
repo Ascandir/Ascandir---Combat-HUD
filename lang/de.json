@@ -127,7 +127,9 @@
       },
       "hide": {
         "Name": "Verstecken",
-        "Desc": "Du versuchst dich zu verstecken (Geschicklichkeit (Heimlichkeit), SG 15)."
+        "Desc": "Du versuchst dich zu verstecken (Geschicklichkeit (Heimlichkeit), SG 15). Bei Erfolg bekommst du den Zustand Versteckt.",
+        "Success": "{name} ist versteckt (Heimlichkeit {total}).",
+        "Fail": "{name} konnte sich nicht verstecken (Heimlichkeit {total}, nötig {dc})."
       },
       "ready": {
         "Name": "Vorbereiten",

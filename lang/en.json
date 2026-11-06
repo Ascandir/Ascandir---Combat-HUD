@@ -127,7 +127,9 @@
       },
       "hide": {
         "Name": "Hide",
-        "Desc": "You try to hide (Dexterity (Stealth), DC 15)."
+        "Desc": "You try to hide (Dexterity (Stealth), DC 15). On a success you gain the Hidden status.",
+        "Success": "{name} is hidden (Stealth {total}).",
+        "Fail": "{name} failed to hide (Stealth {total}, needed {dc})."
       },
       "ready": {
         "Name": "Ready",

@@ -348,7 +348,7 @@ export const BASIC_ACTIONS = [
   { id: "disengage", icon: "fas fa-person-walking-arrow-right", economy: "action", status: "disengaged" },
   { id: "dodge", icon: "fas fa-shield-halved", economy: "action", status: "dodging" },
   { id: "help", icon: "fas fa-handshake-angle", economy: "action" },
-  { id: "hide", icon: "fas fa-user-ninja", economy: "action", skill: "ste" },
+  { id: "hide", icon: "fas fa-user-ninja", economy: "action", skill: "ste", statusOnSuccess: "hiding", dc: 15 },
   { id: "ready", icon: "fas fa-hourglass-half", economy: "action" },
   { id: "search", icon: "fas fa-magnifying-glass", economy: "action", skill: "prc" },
   { id: "study", icon: "fas fa-book-open-reader", economy: "action", skill: "inv" },
@@ -367,12 +367,27 @@ export async function postBasicAction(actor, action, { mountOf = null } = {}) {
     speaker: ChatMessage.getSpeaker({ actor }),
     content: `<div class="ach-chat-card"><header><i class="${action.icon}"></i> <strong>${esc(name)}</strong></header>${by}<p>${esc(desc)}</p></div>`
   });
-  if (action.status && CONFIG.statusEffects?.some((s) => s.id === action.status) && actor.isOwner) {
-    await actor.toggleStatusEffect(action.status, { active: true });
-  }
+  if (action.status) await setStatus(actor, action.status);
   if (action.skill && actor.system.skills?.[action.skill]) {
-    await actor.rollSkill({ skill: action.skill });
+    const rolls = await actor.rollSkill({ skill: action.skill });
+    const roll = Array.isArray(rolls) ? rolls[0] : rolls;
+    if (action.statusOnSuccess && roll) {
+      const total = Number(roll.total);
+      if (!action.dc || total >= action.dc) {
+        await setStatus(actor, action.statusOnSuccess);
+        ui.notifications.info(t("Basic.hide.Success", { name: actor.name, total }));
+      } else {
+        ui.notifications.warn(t("Basic.hide.Fail", { name: actor.name, total, dc: action.dc }));
+      }
+    }
   }
+}
+
+/** Zustand setzen, falls es ihn gibt und der Spieler den Akteur besitzt. */
+async function setStatus(actor, id) {
+  if (!actor.isOwner || !CONFIG.statusEffects?.some((s) => s.id === id)) return;
+  if (actor.statuses?.has?.(id)) return;
+  await actor.toggleStatusEffect(id, { active: true });
 }
 
 /* -------------------------------------------- */

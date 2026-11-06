@@ -170,6 +170,8 @@ Hooks.on("canvasTearDown", () => hud?.bind(null));
 function onTurn(combat) {
   if (!hud) return;
   const actor = combat?.combatant?.actor;
+  // Ausweichen endet zu Beginn des eigenen Zugs (nur der aktive SL setzt das um)
+  if (actor?.statuses?.has?.("dodging") && game.user === game.users.activeGM) actor.toggleStatusEffect("dodging", { active: false });
   if (actor) hud.resetEconomy(actor);
   // Wer am Zug ist und es dem Spieler gehört: HUD automatisch öffnen
   if (combat?.started && game.settings.get(ID, "openOnCombat") && !hud.rendered && !game.user.isGM) {
