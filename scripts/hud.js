@@ -255,7 +255,7 @@ export class CombatHud {
     const s = stats(actor);
     const mount = this.mountDoc;
     const mActor = mount?.actor;
-    const img = this.token.document.texture?.src || actor.img;
+    const img = actor.img || this.token.document.texture?.src;
     const dying = actor.type === "character" && (actor.system.attributes?.hp?.value ?? 1) <= 0;
 
     const effectIcons = (a, cls = "") => conditionsOf(a)
