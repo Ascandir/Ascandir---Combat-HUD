@@ -891,73 +891,67 @@ body.ach-hide-ui #players {
   border-color: var(--ach-banner-text);
 }
 
-/* ---------- Ressourcen (Zauberplätze, Ki …) ---------- */
+/* ---------- Ressourcen-Leiste am Portraitrand ---------- */
+.ach-res-col {
+  align-self: flex-end;
+  display: flex;
+  margin-left: -4px;
+}
 .ach-resources {
-  margin-bottom: 4px;
-  padding: 5px 7px;
-  max-height: 150px;
-  overflow-y: auto;
+  width: 36px;
+  height: 252px;
+  padding: 6px 3px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 5px;
   background: var(--ach-bg-panel);
   border: 2px solid var(--ach-frame);
   border-radius: var(--ach-radius);
   box-shadow: var(--ach-frame-shadow);
-  scrollbar-width: thin;
 }
-.ach-res-slots {
+.ach-hud.ach-mounted .ach-resources {
+  height: 318px;
+}
+.ach-res-group {
   display: flex;
-  flex-wrap: wrap;
-  gap: 3px 9px;
-  padding-bottom: 3px;
-}
-.ach-res-slots + .ach-res-row {
-  border-top: 1px solid rgba(240, 201, 131, 0.25);
-  padding-top: 3px;
-}
-.ach-res-slot {
-  display: inline-flex;
+  flex-direction: column;
   align-items: center;
   gap: 2px;
 }
-.ach-res-slot b {
-  min-width: 14px;
-  margin-right: 2px;
+.ach-res-group b {
   font-family: var(--ach-font-head);
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1;
   color: var(--ach-frame-hi);
-}
-.ach-res-slot b i {
-  font-size: 9px;
-  margin-right: 2px;
-}
-.ach-res-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  font-size: 11px;
-}
-.ach-res-name {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  color: var(--ach-text);
 }
-.ach-res-pips {
-  flex: 0 0 auto;
-  display: inline-flex;
+.ach-res-group b i {
+  font-size: 8px;
+  margin-right: 1px;
+}
+.ach-res-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 11px);
+  justify-items: center;
   align-items: center;
-  gap: 2px;
+  gap: 3px 2px;
+}
+.ach-res-grid:has(> :only-child) {
+  grid-template-columns: 1fr;
+}
+.ach-res-sep {
+  width: 22px;
+  margin: 1px 0;
+  border: 0;
+  border-top: 1px solid rgba(240, 201, 131, 0.4);
 }
 .ach-res-count {
+  grid-column: 1 / -1;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--ach-highlight);
-  margin-left: 2px;
 }
 /* Zauberplatz = rubinroter Edelstein, Paktmagie = violetter */
 .ach-gem {
@@ -987,7 +981,7 @@ body.ach-hide-ui #players {
 }
 /* Ki & Co. = eigene Symbole */
 .ach-res-ico {
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(0, 0, 0, 0.55);
   -webkit-text-stroke: 0.5px rgba(240, 201, 131, 0.45);
 }
@@ -1141,7 +1135,7 @@ body.ach-hide-ui #players {
 .ach-hud.ach-min .ach-side,
 .ach-hud.ach-min .ach-utilcol,
 .ach-hud.ach-min .ach-sets,
-.ach-hud.ach-min .ach-resources,
+.ach-hud.ach-min .ach-res-col,
 .ach-hud.ach-min .ach-drawer,
 .ach-hud.ach-min .ach-drawer-head,
 .ach-hud.ach-min .ach-effects,

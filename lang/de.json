@@ -261,7 +261,7 @@
       },
       "showResources": {
         "Name": "Ressourcen anzeigen",
-        "Hint": "Kleines Fenster über den Waffensets mit Zauberplätzen und Ressourcen-Pools des Charakters (Ki/Fokus, Göttliche Macht, Zaubereipunkte, Überlegenheitswürfel, Psionische Energie) – nur was der Charakter hat."
+        "Hint": "Senkrechte Leiste am Portraitrand mit Zauberplätzen und Ressourcen-Pools des Charakters (Ki/Fokus, Göttliche Macht, Zaubereipunkte, Überlegenheitswürfel, Psionische Energie) – nur was der Charakter hat."
       }
     },
     "Res": {

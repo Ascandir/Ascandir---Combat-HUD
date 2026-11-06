@@ -261,7 +261,7 @@
       },
       "showResources": {
         "Name": "Show resources",
-        "Hint": "Small window above the weapon sets with spell slots and the character's resource pools (ki/focus, Channel Divinity, sorcery points, superiority dice, psionic energy) – only what the character has."
+        "Hint": "Vertical strip next to the portrait with spell slots and the character's resource pools (ki/focus, Channel Divinity, sorcery points, superiority dice, psionic energy) – only what the character has."
       }
     },
     "Res": {
