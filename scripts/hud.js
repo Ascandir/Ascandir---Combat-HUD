@@ -23,6 +23,7 @@ export class CombatHud {
     this.flyout = null; // { panel, cat }
     this.used = new Map(); // actorUuid -> Set
     this.extraActions = new Map(); // actorUuid -> Anzahl zusätzlicher Aktionen (Tatendrang)
+    this.attacksMade = new Map(); // actorUuid -> Angriffe in der laufenden Angriffsaktion
     this.registry = new Map();
     this.root = null;
     this.tip = null;
@@ -562,7 +563,12 @@ export class CombatHud {
     const pips = p.pips ? `<span class="ach-pips">${pipsHTML(p.pips.value, p.pips.max)}</span>` : "";
     const sub = p.sub ? `<small class="ach-panel-sub">${esc(p.sub)}</small>` : "";
     const extra = p.id === "action" ? this.extraActions.get(this.actor?.uuid) ?? 0 : 0;
-    const extraHTML = extra > 0 ? `<b class="ach-extra" data-tip="${esc(t("Hud.ExtraActionTip"))}">+${extra}</b>` : "";
+    let extraHTML = extra > 0 ? `<b class="ach-extra" data-tip="${esc(t("Hud.ExtraActionTip"))}">+${extra}</b>` : "";
+    const made = p.id === "action" && !used ? this.attacksMade.get(this.actor?.uuid) ?? 0 : 0;
+    if (made > 0) {
+      const max = attacksPerAction(this.actor);
+      extraHTML += `<b class="ach-extra ach-attacks" data-tip="${esc(t("Hud.AttacksTip", { made, max }))}"><i class="fas fa-khanda"></i> ${made}/${max}</b>`;
+    }
     return `
       <div class="ach-panel ach-panel-${p.id} ${used ? "is-used" : ""} ${p.locked ? "is-locked" : ""}" data-panel="${p.id}">
         <div class="ach-panel-tiles">${tilesHTML}</div>
@@ -945,7 +951,7 @@ export class CombatHud {
     }
     if (!result) return;
     const type = obj.economy ?? economyOf(activationOf(entry.activity));
-    this.consume(actor, type, mount);
+    this.consume(actor, type, mount, { attack: entry.activity?.type === "attack" });
     if (this.flyout && !ev.shiftKey) this.flyout = null;
     this.render();
   }
@@ -961,7 +967,7 @@ export class CombatHud {
   }
 
   /** Markiert Aktion/Bonus/Reaktion/Reittier als verbraucht (nur im Kampf). */
-  consume(actor, type, mount = false) {
+  consume(actor, type, mount = false, { attack = false } = {}) {
     if (!game.combat?.started || !setting("trackEconomy")) return;
     const set = this.usedSet();
     if (mount) {
@@ -971,8 +977,20 @@ export class CombatHud {
     if (!type) return;
     const myTurn = game.combat.combatant?.actor === actor || game.combat.combatant?.tokenId === this.token?.id;
     if (!myTurn && (type === "action" || type === "bonus")) type = "reaction";
-    // Tatendrang: eine gutgeschriebene Zusatzaktion wird zuerst verbraucht
     const key = this.actor?.uuid;
+    // Zusätzlicher Angriff / Mehrfachangriff: die Angriffsaktion reicht für mehrere Angriffe
+    if (type === "action" && attack && !set.has("action")) {
+      const max = attacksPerAction(this.actor);
+      const done = (this.attacksMade.get(key) ?? 0) + 1;
+      if (done < max) {
+        this.attacksMade.set(key, done);
+        return;
+      }
+      this.attacksMade.delete(key);
+    } else if (type === "action") {
+      this.attacksMade.delete(key);
+    }
+    // Tatendrang: eine gutgeschriebene Zusatzaktion wird zuerst verbraucht
     const extra = this.extraActions.get(key) ?? 0;
     if (type === "action" && !set.has("action") && extra > 0) {
       this.extraActions.set(key, extra - 1);
@@ -997,10 +1015,12 @@ export class CombatHud {
   resetEconomy(actor) {
     if (!actor) {
       this.extraActions.clear();
+      this.attacksMade.clear();
       return this.used.clear();
     }
     this.used.delete(actor.uuid);
     this.extraActions.delete(actor.uuid);
+    this.attacksMade.delete(actor.uuid);
   }
 
   _onRightClick(ev) {
@@ -1197,6 +1217,29 @@ export class CombatHud {
 /* -------------------------------------------- */
 /*  Helfer                                      */
 /* -------------------------------------------- */
+
+/**
+ * Wie viele Angriffe erlaubt eine Angriffsaktion?
+ * Zusätzlicher Angriff (2), Zwei/Drei zusätzliche Angriffe (3/4), Durstige Klinge, NSC-Mehrfachangriff.
+ */
+const NUMBER_WORDS = { two: 2, three: 3, four: 4, five: 5, zwei: 2, drei: 3, vier: 4, "fünf": 5 };
+export function attacksPerAction(actor) {
+  if (!actor) return 1;
+  let max = 1;
+  for (const item of actor.items) {
+    if (item.type !== "feat") continue;
+    const text = `${item.system.identifier ?? ""} ${item.name}`.toLowerCase();
+    if (/three extra attacks|drei zusätzliche angriffe/.test(text)) max = Math.max(max, 4);
+    else if (/two extra attacks|zwei zusätzliche angriffe/.test(text)) max = Math.max(max, 3);
+    else if (/extra[- ]attack|zusätzlicher angriff|extra-angriff|thirsting blade|durstige klinge/.test(text)) max = Math.max(max, 2);
+    else if (/multiattack|mehrfachangriff/.test(text)) {
+      const desc = String(item.system.description?.value ?? "").replace(/<[^>]+>/g, " ").toLowerCase();
+      const m = desc.match(/\b(two|three|four|five|zwei|drei|vier|fünf)\b[^.]{0,40}?(attacks|angriffe)/);
+      max = Math.max(max, m ? NUMBER_WORDS[m[1]] : 2);
+    }
+  }
+  return max;
+}
 
 /** Aktive Zustände/Effekte mit Symbol (Zustände, Bloodied, zeitlich begrenzte Effekte). */
 function conditionsOf(actor) {

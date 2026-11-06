@@ -568,10 +568,12 @@ export function resourcesData(actor) {
   const slots = [];
   for (let n = 1; n <= 9; n++) {
     const s = sys.spells?.[`spell${n}`];
-    if (s?.max) slots.push({ level: n, value: s.value ?? 0, max: s.max, kind: "spell" });
+    const max = Number(s?.max) || 0;
+    if (max > 0) slots.push({ level: n, value: Number(s.value) || 0, max, kind: "spell" });
   }
   const pact = sys.spells?.pact;
-  if (pact?.max) slots.push({ level: pact.level ?? "P", value: pact.value ?? 0, max: pact.max, kind: "pact" });
+  const pactMax = Number(pact?.max) || 0;
+  if (pactMax > 0) slots.push({ level: pact.level ?? "P", value: Number(pact.value) || 0, max: pactMax, kind: "pact" });
 
   const res = [];
   for (const item of actor.items) {
@@ -589,7 +591,11 @@ export function resourcesData(actor) {
   // Alte Ressourcenfelder (primär/sekundär/tertiär)
   for (const key of ["primary", "secondary", "tertiary"]) {
     const r = sys.resources?.[key];
-    if (r?.max && r.label) res.push({ name: r.label, value: r.value ?? 0, max: Number(r.max), kind: resourceKind(r.label), sort: 1e9 });
+    const rMax = Number(r?.max) || 0;
+    if (rMax > 0 && r.label) {
+      const kind = resourceKind(r.label);
+      if (POOL_KINDS.includes(kind)) res.push({ name: r.label, value: Number(r.value) || 0, max: rMax, kind, sort: 1e9 });
+    }
   }
   const order = Object.keys(RESOURCE_ICONS);
   res.sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || a.sort - b.sort);

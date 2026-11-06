@@ -37,6 +37,7 @@ Falls Argon noch aktiv ist, solltest du es deaktivieren, sonst liegen zwei HUDs 
 - **Merkmal nutzen** / **Gegenstand nutzen** / **Waffen**.
 - Merkmale mit Ladungen (z. B. Kanalisieren) liegen als kleine Kacheln direkt im Bereich.
 - **Weitere Fähigkeiten** (im Bereich Spezial): Fähigkeiten ohne feste Aktionsart wie Hinterhältiger Angriff, Göttlicher Schlag, Betäubender Schlag, Metamagie oder Arkane Erholung.
+- **Zusätzlicher Angriff / Mehrfachangriff**: Die Aktion bleibt frei, bis alle Angriffe der Angriffsaktion gemacht sind (Banner zeigt z. B. „1/2“). Erkannt werden Zusätzlicher Angriff, Zwei/Drei zusätzliche Angriffe, Durstige Klinge und NSC-Mehrfachangriff.
 - **Tatendrang**: Nach dem Einsatz wird „Aktion“ wieder frei bzw. zeigt „+1“.
 - **Standardaktionen** (Verstecken würfelt Heimlichkeit und gibt bei 15+ den Zustand Versteckt, Ausweichen gibt Ausweichend bis zum eigenen nächsten Zug): Spurten, Rückzug, Ausweichen, Helfen, Verstecken, Vorbereiten, Suchen, Untersuchen, Beeinflussen, Benutzen.
 - Linksklick nutzt die Aktion, Rechtsklick öffnet den Gegenstand. Mit gedrückter Umschalttaste bleibt das Ausklapp-Fenster offen.

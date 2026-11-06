@@ -649,6 +649,9 @@ body.ach-hide-ui #players {
   border-radius: 8px;
   text-shadow: none;
 }
+.ach-attacks i {
+  font-size: 10px;
+}
 .ach-panel-sub {
   font-family: var(--ach-font-body);
   text-transform: none;

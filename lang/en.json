@@ -29,7 +29,8 @@
       "InitiativeValue": "Initiative: {value}",
       "InitiativeDone": "Initiative already rolled ({value}).",
       "ExtraAction": "{name} gains an additional action from Action Surge.",
-      "ExtraActionTip": "Additional action from Action Surge"
+      "ExtraActionTip": "Additional action from Action Surge",
+      "AttacksTip": "Attack action: {made} of {max} attacks made"
     },
     "Portrait": {
       "HP": "HP",
