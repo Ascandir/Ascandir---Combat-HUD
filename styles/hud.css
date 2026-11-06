@@ -1002,6 +1002,9 @@ body.ach-hide-ui #players {
 .ach-res-ico.on.layonhands { color: #ffd27a; }
 .ach-res-ico.on.surge { color: #ffe66b; text-shadow: 0 0 4px rgba(255, 230, 90, 0.8); }
 .ach-res-ico.on.wind { color: #bfe8e0; }
+.ach-res-ico.on.psionic { color: #ff9be0; text-shadow: 0 0 4px rgba(255, 120, 210, 0.8); }
+.ach-res-ico.on.favored { color: #9be07a; }
+.ach-res-ico.on.inspiration { color: #fff; text-shadow: 0 0 4px rgba(255, 255, 255, 0.8); }
 
 /* ---------- Waffensets (über dem Portrait) ---------- */
 .ach-sets {

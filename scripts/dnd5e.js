@@ -505,7 +505,10 @@ const RESOURCE_KINDS = [
   { kind: "wildshape", re: /wild ?shape|tiergestalt|wildgestalt/i },
   { kind: "layonhands", re: /lay on hands|handauflegen/i },
   { kind: "surge", re: /action surge|tatendrang/i },
-  { kind: "wind", re: /second wind|zweite luft|durchatmen/i }
+  { kind: "wind", re: /second wind|zweite luft|durchatmen/i },
+  { kind: "psionic", re: /psionic|psionisch/i },
+  { kind: "favored", re: /favored enemy|favou?red foe|erzfeind|bevorzugter feind/i },
+  { kind: "inspiration", re: /heroic inspiration|heldenhafte inspiration/i }
 ];
 
 export const RESOURCE_ICONS = {
@@ -519,6 +522,9 @@ export const RESOURCE_ICONS = {
   layonhands: "fas fa-hand-holding-heart",
   surge: "fas fa-bolt",
   wind: "fas fa-wind",
+  psionic: "fas fa-brain",
+  favored: "fas fa-crosshairs",
+  inspiration: "fas fa-feather",
   generic: "fas fa-circle"
 };
 
@@ -544,7 +550,10 @@ export function resourcesData(actor) {
     if (!u?.max || Number(u.max) <= 0) continue;
     const max = Number(u.max);
     const value = u.value ?? Math.max(0, max - (u.spent ?? 0));
-    res.push({ name: item.name, value, max, kind: resourceKind(item.name, item.system.identifier), id: item.id, sort: item.sort ?? 0 });
+    const kind = resourceKind(item.name, item.system.identifier);
+    // Nur echte Klassen-Ressourcen (Ki, Göttliche Macht, Kampfrausch …), keine sonstigen Merkmale mit Ladungen
+    if (kind === "generic") continue;
+    res.push({ name: item.name, value, max, kind, id: item.id, sort: item.sort ?? 0 });
   }
   // Alte Ressourcenfelder (primär/sekundär/tertiär)
   for (const key of ["primary", "secondary", "tertiary"]) {

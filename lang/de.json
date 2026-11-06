@@ -261,7 +261,7 @@
       },
       "showResources": {
         "Name": "Ressourcen anzeigen",
-        "Hint": "Kleines Fenster über den Waffensets mit Zauberplätzen, Ki-/Fokuspunkten, Göttlicher Macht und anderen Merkmalen mit Ladungen."
+        "Hint": "Kleines Fenster über den Waffensets mit den Klassen-Ressourcen des Charakters: Zauberplätze, Ki-/Fokuspunkte, Göttliche Macht, Kampfrausch usw. – nur was der Charakter hat."
       }
     },
     "Res": {

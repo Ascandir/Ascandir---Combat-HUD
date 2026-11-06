@@ -261,7 +261,7 @@
       },
       "showResources": {
         "Name": "Show resources",
-        "Hint": "Small window above the weapon sets with spell slots, ki/focus points, Channel Divinity and other limited-use features."
+        "Hint": "Small window above the weapon sets with the character's class resources: spell slots, ki/focus points, Channel Divinity, Rage etc. – only what the character has."
       }
     },
     "Res": {
