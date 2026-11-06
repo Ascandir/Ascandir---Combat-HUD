@@ -41,9 +41,21 @@ export function activationOf(activity) {
  * Einträge (Item + Aktivität) eines Gegenstands für bestimmte Aktivierungsarten.
  * Hat ein Gegenstand mehrere passende Aktivitäten, gibt es pro Aktivität einen Eintrag.
  */
+/** Aktivierungsarten, die einen eigenen Bereich haben. Alles andere landet unter „Weitere Fähigkeiten“. */
+export const PANEL_TYPES = ["action", "bonus", "reaction", "special", "legendary", "lair", "mythic"];
+const OTHER_ITEM_TYPES = ["feat", "spell", "weapon", "consumable"];
+
 export function entriesForItem(item, types) {
   const all = activitiesOf(item).filter((a) => a.type !== "cast");
-  const matching = all.filter((a) => types.includes(activationOf(a)));
+  let matching;
+  if (types === "other") {
+    // Nur Gegenstände, die sonst nirgends auftauchen (z. B. Hinterhältiger Angriff, Metamagie, Arkane Erholung)
+    if (!OTHER_ITEM_TYPES.includes(item.type)) return [];
+    if (all.some((a) => PANEL_TYPES.includes(activationOf(a)))) return [];
+    matching = all.filter((a) => a.type !== "enchant");
+  } else {
+    matching = all.filter((a) => types.includes(activationOf(a)));
+  }
   if (!matching.length) return [];
   const mode = setting("explodeActivities") ?? "never";
   const explode = matching.length > 1 && (mode === "always" || (mode === "only-weapons" && item.type === "weapon"));

@@ -47,6 +47,7 @@ function registerSettings() {
   // Inhalt
   client("showResources", Boolean, true);
   client("showBasicActions", Boolean, true);
+  client("showOtherAbilities", Boolean, true);
   client("limitedFeaturesInBar", Boolean, true);
   client("condenseFeatures", Boolean, true);
   client("showEmptyPanels", Boolean, false);
@@ -230,4 +231,17 @@ Hooks.on("updateToken", (doc, changes) => {
 Hooks.on("deleteToken", (doc) => {
   if (doc === hud?.token?.document) hud.bind(null);
   else if (hud?.rendered) hud.render();
+});
+
+/* -------------------------------------------- */
+/*  Tatendrang (Action Surge)                   */
+/* -------------------------------------------- */
+
+const SURGE = /action[- ]?surge|tatendrang/i;
+Hooks.on("dnd5e.postUseActivity", (activity) => {
+  const item = activity?.item;
+  const actor = item?.actor ?? item?.parent;
+  if (!hud || !actor || !item) return;
+  if (!SURGE.test(item.system?.identifier ?? "") && !SURGE.test(item.name ?? "")) return;
+  hud.grantExtraAction(actor);
 });

@@ -36,6 +36,8 @@ Falls Argon noch aktiv ist, solltest du es deaktivieren, sonst liegen zwei HUDs 
 - **Zauber wirken**: nach Grad sortiert, mit Zauberplätzen als Rauten.
 - **Merkmal nutzen** / **Gegenstand nutzen** / **Waffen**.
 - Merkmale mit Ladungen (z. B. Kanalisieren) liegen als kleine Kacheln direkt im Bereich.
+- **Weitere Fähigkeiten** (im Bereich Spezial): Fähigkeiten ohne feste Aktionsart wie Hinterhältiger Angriff, Göttlicher Schlag, Betäubender Schlag, Metamagie oder Arkane Erholung.
+- **Tatendrang**: Nach dem Einsatz wird „Aktion“ wieder frei bzw. zeigt „+1“.
 - **Standardaktionen**: Spurten, Rückzug, Ausweichen, Helfen, Verstecken, Vorbereiten, Suchen, Untersuchen, Beeinflussen, Benutzen.
 - Linksklick nutzt die Aktion, Rechtsklick öffnet den Gegenstand. Mit gedrückter Umschalttaste bleibt das Ausklapp-Fenster offen.
 - Im Kampf wird ein Bereich nach der Nutzung ausgegraut, bis du wieder dran bist. Ein Klick auf das Banner setzt ihn von Hand zurück.

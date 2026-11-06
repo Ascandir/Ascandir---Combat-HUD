@@ -27,7 +27,9 @@
       "Sheet": "Open character sheet",
       "Initiative": "Roll initiative",
       "InitiativeValue": "Initiative: {value}",
-      "InitiativeDone": "Initiative already rolled ({value})."
+      "InitiativeDone": "Initiative already rolled ({value}).",
+      "ExtraAction": "{name} gains an additional action from Action Surge.",
+      "ExtraActionTip": "Additional action from Action Surge"
     },
     "Portrait": {
       "HP": "HP",
@@ -78,7 +80,8 @@
       "Basic": "Basic Actions",
       "MountAttacks": "Attacks",
       "MountFeatures": "Features",
-      "MountBasic": "Mount Actions"
+      "MountBasic": "Mount Actions",
+      "Other": "Other Abilities"
     },
     "Sets": {
       "Tip": "Weapon sets – drag a weapon from the sheet onto a slot, right-click clears it",
@@ -262,6 +265,10 @@
       "showResources": {
         "Name": "Show resources",
         "Hint": "Vertical strip next to the portrait with spell slots and the character's resource pools (ki/focus, Channel Divinity, sorcery points, superiority dice, psionic energy) – only what the character has."
+      },
+      "showOtherAbilities": {
+        "Name": "Show other abilities",
+        "Hint": "Abilities without a fixed activation (e.g. Sneak Attack, Divine Strike, Metamagic, Arcane Recovery) appear in the Special panel under 'Other Abilities'."
       }
     },
     "Res": {

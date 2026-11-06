@@ -639,6 +639,16 @@ body.ach-hide-ui #players {
 .ach-panel-label i {
   font-size: 12px;
 }
+.ach-extra {
+  padding: 0 5px;
+  font-family: var(--ach-font-body);
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #3a2109;
+  background: radial-gradient(circle at 40% 35%, #fff1c4, var(--ach-frame-hi) 60%, var(--ach-frame));
+  border-radius: 8px;
+  text-shadow: none;
+}
 .ach-panel-sub {
   font-family: var(--ach-font-body);
   text-transform: none;

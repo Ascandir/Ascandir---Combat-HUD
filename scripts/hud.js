@@ -22,6 +22,7 @@ export class CombatHud {
     this.drawerTarget = "rider";
     this.flyout = null; // { panel, cat }
     this.used = new Map(); // actorUuid -> Set
+    this.extraActions = new Map(); // actorUuid -> Anzahl zusätzlicher Aktionen (Tatendrang)
     this.registry = new Map();
     this.root = null;
     this.tip = null;
@@ -516,6 +517,16 @@ export class CombatHud {
       if (c.spells.length) tiles.push(this._spellCat(actor, c.spells));
       if (c.features.length) tiles.push(this._catTile("features", t("Cat.Features"), "fas fa-hand-fist", [{ entries: c.features }], { actor }));
       if (c.items.length) tiles.push(this._catTile("items", t("Cat.Items"), "fas fa-flask", [{ entries: c.items }], { actor }));
+      if (setting("showOtherAbilities")) {
+        const o = collect(actor, "other");
+        const groups = [
+          { label: t("Cat.Features"), entries: o.features.concat(o.barFeatures) },
+          { label: t("Cat.Spells"), entries: o.spells },
+          { label: t("Cat.Weapons"), entries: o.weapons },
+          { label: t("Cat.Items"), entries: o.items }
+        ].filter((g) => g.entries.length);
+        if (groups.length) tiles.push(this._catTile("other", t("Cat.Other"), "fas fa-scroll", groups, { actor }));
+      }
       panels.push({ id: "special", label: t("Panel.Special"), tiles });
     }
 
@@ -550,11 +561,13 @@ export class CombatHud {
     const flyout = this.flyout?.panel === p.id ? this._flyoutHTML(p) : "";
     const pips = p.pips ? `<span class="ach-pips">${pipsHTML(p.pips.value, p.pips.max)}</span>` : "";
     const sub = p.sub ? `<small class="ach-panel-sub">${esc(p.sub)}</small>` : "";
+    const extra = p.id === "action" ? this.extraActions.get(this.actor?.uuid) ?? 0 : 0;
+    const extraHTML = extra > 0 ? `<b class="ach-extra" data-tip="${esc(t("Hud.ExtraActionTip"))}">+${extra}</b>` : "";
     return `
       <div class="ach-panel ach-panel-${p.id} ${used ? "is-used" : ""} ${p.locked ? "is-locked" : ""}" data-panel="${p.id}">
         <div class="ach-panel-tiles">${tilesHTML}</div>
         <div class="ach-panel-label" data-action="toggle-used" data-panel="${p.id}" data-tip="${esc(t(p.locked ? "Mount.NotOwner" : "Hud.ToggleUsed"))}">
-          ${p.mount ? `<i class="fas fa-horse-head"></i>` : ""}<span>${esc(p.label)}</span>${pips}${sub}
+          ${p.mount ? `<i class="fas fa-horse-head"></i>` : ""}<span>${esc(p.label)}</span>${extraHTML}${pips}${sub}
           ${p.locked ? `<i class="fas fa-lock"></i>` : ""}
         </div>
         ${flyout}
@@ -958,12 +971,36 @@ export class CombatHud {
     if (!type) return;
     const myTurn = game.combat.combatant?.actor === actor || game.combat.combatant?.tokenId === this.token?.id;
     if (!myTurn && (type === "action" || type === "bonus")) type = "reaction";
+    // Tatendrang: eine gutgeschriebene Zusatzaktion wird zuerst verbraucht
+    const key = this.actor?.uuid;
+    const extra = this.extraActions.get(key) ?? 0;
+    if (type === "action" && !set.has("action") && extra > 0) {
+      this.extraActions.set(key, extra - 1);
+      return;
+    }
     set.add(type);
   }
 
+  /** Tatendrang (Action Surge): gibt eine zusätzliche Aktion in diesem Zug. */
+  grantExtraAction(actor) {
+    if (!game.combat?.started || actor !== this.actor) return;
+    const set = this.usedSet();
+    if (set.has("action")) {
+      set.delete("action");
+    } else {
+      this.extraActions.set(actor.uuid, (this.extraActions.get(actor.uuid) ?? 0) + 1);
+    }
+    ui.notifications.info(t("Hud.ExtraAction", { name: actor.name }));
+    this.render();
+  }
+
   resetEconomy(actor) {
-    if (!actor) return this.used.clear();
+    if (!actor) {
+      this.extraActions.clear();
+      return this.used.clear();
+    }
     this.used.delete(actor.uuid);
+    this.extraActions.delete(actor.uuid);
   }
 
   _onRightClick(ev) {

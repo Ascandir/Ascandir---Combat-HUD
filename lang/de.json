@@ -27,7 +27,9 @@
       "Sheet": "Charakterbogen öffnen",
       "Initiative": "Initiative würfeln",
       "InitiativeValue": "Initiative: {value}",
-      "InitiativeDone": "Initiative ist schon gewürfelt ({value})."
+      "InitiativeDone": "Initiative ist schon gewürfelt ({value}).",
+      "ExtraAction": "{name} erhält durch Tatendrang eine zusätzliche Aktion.",
+      "ExtraActionTip": "Zusätzliche Aktion durch Tatendrang"
     },
     "Portrait": {
       "HP": "TP",
@@ -78,7 +80,8 @@
       "Basic": "Standard­aktionen",
       "MountAttacks": "Angriffe",
       "MountFeatures": "Merkmale",
-      "MountBasic": "Reittier-Aktionen"
+      "MountBasic": "Reittier-Aktionen",
+      "Other": "Weitere Fähigkeiten"
     },
     "Sets": {
       "Tip": "Waffensets – Waffe aus dem Charakterbogen auf ein Feld ziehen, Rechtsklick leert es",
@@ -262,6 +265,10 @@
       "showResources": {
         "Name": "Ressourcen anzeigen",
         "Hint": "Senkrechte Leiste am Portraitrand mit Zauberplätzen und Ressourcen-Pools des Charakters (Ki/Fokus, Göttliche Macht, Zaubereipunkte, Überlegenheitswürfel, Psionische Energie) – nur was der Charakter hat."
+      },
+      "showOtherAbilities": {
+        "Name": "Weitere Fähigkeiten anzeigen",
+        "Hint": "Fähigkeiten ohne feste Aktionsart (z. B. Hinterhältiger Angriff, Göttlicher Schlag, Metamagie, Arkane Erholung) erscheinen im Bereich Spezial unter „Weitere Fähigkeiten“."
       }
     },
     "Res": {
