@@ -45,6 +45,7 @@ function registerSettings() {
   client("showTooltips", Boolean, true);
   client("rangeRing", Boolean, true);
   // Inhalt
+  client("showResources", Boolean, true);
   client("showBasicActions", Boolean, true);
   client("limitedFeaturesInBar", Boolean, true);
   client("condenseFeatures", Boolean, true);

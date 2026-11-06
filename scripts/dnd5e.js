@@ -489,3 +489,69 @@ export async function tooltipData(entry) {
     properties: props.filter((p, i, arr) => p.label && arr.findIndex((q) => q.label === p.label) === i)
   };
 }
+
+/* -------------------------------------------- */
+/*  Ressourcen (Zauberplätze, Ki, Kanalisieren) */
+/* -------------------------------------------- */
+
+/** Symbolart je Ressource – erkannt an Kennung oder Name (deutsch/englisch). */
+const RESOURCE_KINDS = [
+  { kind: "ki", re: /\b(ki|focus|fokus|monk'?s? focus|mönchs)/i },
+  { kind: "divinity", re: /channel divinity|göttliche macht|kanalisieren|fokussierte göttlichkeit/i },
+  { kind: "rage", re: /\b(rage|kampfrausch|wut|zorn)\b/i },
+  { kind: "bardic", re: /bardic|bardische/i },
+  { kind: "sorcery", re: /sorcery|zauberei|zauberpunkte/i },
+  { kind: "superiority", re: /superiority|überlegenheit/i },
+  { kind: "wildshape", re: /wild ?shape|tiergestalt|wildgestalt/i },
+  { kind: "layonhands", re: /lay on hands|handauflegen/i },
+  { kind: "surge", re: /action surge|tatendrang/i },
+  { kind: "wind", re: /second wind|zweite luft|durchatmen/i }
+];
+
+export const RESOURCE_ICONS = {
+  ki: "fas fa-yin-yang",
+  divinity: "fas fa-sun",
+  rage: "fas fa-fire",
+  bardic: "fas fa-music",
+  sorcery: "fas fa-star",
+  superiority: "fas fa-dice-d6",
+  wildshape: "fas fa-paw",
+  layonhands: "fas fa-hand-holding-heart",
+  surge: "fas fa-bolt",
+  wind: "fas fa-wind",
+  generic: "fas fa-circle"
+};
+
+function resourceKind(name, identifier) {
+  const text = `${identifier ?? ""} ${name ?? ""}`;
+  return RESOURCE_KINDS.find((k) => k.re.test(text))?.kind ?? "generic";
+}
+
+export function resourcesData(actor) {
+  const sys = actor.system;
+  const slots = [];
+  for (let n = 1; n <= 9; n++) {
+    const s = sys.spells?.[`spell${n}`];
+    if (s?.max) slots.push({ level: n, value: s.value ?? 0, max: s.max, kind: "spell" });
+  }
+  const pact = sys.spells?.pact;
+  if (pact?.max) slots.push({ level: pact.level ?? "P", value: pact.value ?? 0, max: pact.max, kind: "pact" });
+
+  const res = [];
+  for (const item of actor.items) {
+    if (item.type !== "feat") continue;
+    const u = item.system.uses;
+    if (!u?.max || Number(u.max) <= 0) continue;
+    const max = Number(u.max);
+    const value = u.value ?? Math.max(0, max - (u.spent ?? 0));
+    res.push({ name: item.name, value, max, kind: resourceKind(item.name, item.system.identifier), id: item.id, sort: item.sort ?? 0 });
+  }
+  // Alte Ressourcenfelder (primär/sekundär/tertiär)
+  for (const key of ["primary", "secondary", "tertiary"]) {
+    const r = sys.resources?.[key];
+    if (r?.max && r.label) res.push({ name: r.label, value: r.value ?? 0, max: Number(r.max), kind: resourceKind(r.label), sort: 1e9 });
+  }
+  const order = Object.keys(RESOURCE_ICONS);
+  res.sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || a.sort - b.sort);
+  return { slots, res };
+}

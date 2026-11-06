@@ -258,7 +258,15 @@
       "mountPanel": {
         "Name": "Show mount panel",
         "Hint": "While riding (Ascandir - DnD5e Mounting), shows the 'Mount' panel with the mount's actions."
+      },
+      "showResources": {
+        "Name": "Show resources",
+        "Hint": "Small window above the weapon sets with spell slots, ki/focus points, Channel Divinity and other limited-use features."
       }
+    },
+    "Res": {
+      "Slot": "Spell slots level {level}: {value}/{max}",
+      "Pact": "Pact magic (level {level}): {value}/{max}"
     }
   }
 }

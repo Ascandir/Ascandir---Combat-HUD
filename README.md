@@ -41,6 +41,8 @@ Falls Argon noch aktiv ist, solltest du es deaktivieren, sonst liegen zwei HUDs 
 - Im Kampf wird ein Bereich nach der Nutzung ausgegraut, bis du wieder dran bist. Ein Klick auf das Banner setzt ihn von Hand zurück.
 - Beim Überfahren erscheint ein Pergament-Tooltip. Die Reichweite wird als Ring um den Token angezeigt.
 
+**Ressourcen** (zwischen Würfe-Leiste und Waffensets): Zauberplätze je Grad als rote Edelsteine (Paktmagie violett) sowie Merkmale mit Ladungen wie Ki-/Fokuspunkte (blaues Yin-Yang), Göttliche Macht (Sonne), Kampfrausch (Flamme), Bardische Inspiration (Note) usw. Andere Merkmale erscheinen als goldene Perlen. Abschaltbar in den Einstellungen.
+
 **Waffensets I–III** (zwischen Portrait und Würfe-Leiste): Waffe aus dem Charakterbogen auf ein Feld ziehen, Rechtsklick leert es. Beim Wechsel wird automatisch an- bzw. abgelegt.
 
 **Knöpfe über der Bewegung**: Charakterbogen, Initiative würfeln (zeigt danach den Wert), Kurze und Lange Rast (außerhalb des Kampfes).

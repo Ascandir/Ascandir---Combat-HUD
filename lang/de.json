@@ -258,7 +258,15 @@
       "mountPanel": {
         "Name": "Reittier-Bereich anzeigen",
         "Hint": "Zeigt beim Reiten (Ascandir - DnD5e Mounting) den Bereich „Reittier“ mit den Aktionen des Reittiers."
+      },
+      "showResources": {
+        "Name": "Ressourcen anzeigen",
+        "Hint": "Kleines Fenster über den Waffensets mit Zauberplätzen, Ki-/Fokuspunkten, Göttlicher Macht und anderen Merkmalen mit Ladungen."
       }
+    },
+    "Res": {
+      "Slot": "Zauberplätze Grad {level}: {value}/{max}",
+      "Pact": "Paktmagie (Grad {level}): {value}/{max}"
     }
   }
 }

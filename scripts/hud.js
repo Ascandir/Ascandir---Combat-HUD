@@ -4,7 +4,7 @@
  */
 import { ID, t, loc, esc, setting } from "./const.js";
 import {
-  ACTIVATION, economyOf, activationOf, entriesForItem, collect, spellGroups, quantityOf, rangeOf,
+  resourcesData, RESOURCE_ICONS, ACTIVATION, economyOf, activationOf, entriesForItem, collect, spellGroups, quantityOf, rangeOf,
   describeActor, speedOf, stats, drawerData, roll, BASIC_ACTIONS, MOUNT_BASIC, postBasicAction, tooltipData
 } from "./dnd5e.js";
 import { getMountOf } from "./mount.js";
@@ -307,6 +307,7 @@ export class CombatHud {
     return `
       <section class="ach-portrait-col">
         ${this._drawerHTML()}
+        ${setting("showResources") ? this._resourcesHTML() : ""}
         ${this._setsHTML()}
         <div class="ach-portrait ${mActor ? "is-mounted" : ""} ${dying ? "is-dying" : ""}">
           <div class="ach-portrait-img" style="background-image:url('${esc(img)}')" data-action="sheet" data-target="rider"></div>
@@ -725,6 +726,32 @@ export class CombatHud {
         </div>`;
     }).join("");
     return `<div class="ach-sets">${html}</div>`;
+  }
+
+  _resourcesHTML() {
+    const { slots, res } = resourcesData(this.actor);
+    if (!slots.length && !res.length) return "";
+    const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+    const gems = (value, max, cls) => {
+      if (max > 10) return `<span class="ach-res-count">${value}/${max}</span>`;
+      return Array.from({ length: max }, (_, i) => `<i class="ach-gem ${cls} ${i < value ? "on" : ""}"></i>`).join("");
+    };
+    const icons = (value, max, kind) => {
+      if (max > 10) return `<i class="${RESOURCE_ICONS[kind]} ach-res-ico on ${kind}"></i><span class="ach-res-count">${value}/${max}</span>`;
+      return Array.from({ length: max }, (_, i) => `<i class="${RESOURCE_ICONS[kind]} ach-res-ico ${kind} ${i < value ? "on" : ""}"></i>`).join("");
+    };
+    const slotHTML = slots.length
+      ? `<div class="ach-res-slots">${slots.map((s) => `
+          <span class="ach-res-slot" data-tip="${esc(s.kind === "pact" ? t("Res.Pact", { level: s.level, value: s.value, max: s.max }) : t("Res.Slot", { level: s.level, value: s.value, max: s.max }))}">
+            <b>${s.kind === "pact" ? `<i class="fas fa-eye"></i>${ROMAN[s.level] ?? ""}` : ROMAN[s.level]}</b>${gems(s.value, s.max, s.kind)}
+          </span>`).join("")}</div>`
+      : "";
+    const resHTML = res.map((r) => `
+      <div class="ach-res-row" data-tip="${esc(`${r.name}: ${r.value}/${r.max}`)}">
+        <span class="ach-res-name">${esc(r.name)}</span>
+        <span class="ach-res-pips">${r.kind === "generic" ? gems(r.value, r.max, "bead") : icons(r.value, r.max, r.kind)}</span>
+      </div>`).join("");
+    return `<div class="ach-resources">${slotHTML}${resHTML}</div>`;
   }
 
   _utilHTML() {
