@@ -78,8 +78,12 @@ const SORT = (a, b) => (a.item.sort ?? 0) - (b.item.sort ?? 0) || a.label.locale
 export function collect(actor, types, { exclude = [] } = {}) {
   const out = { weapons: [], spells: [], features: [], barFeatures: [], items: [] };
   const barLimited = setting("limitedFeaturesInBar");
+  const doll = game.modules.get("ascandir-dnd5e-inventorydoll");
+  const reachable = doll?.active && doll.api?.isReachable ? doll.api.isReachable : null;
   for (const item of actor.items) {
     if (exclude.includes(item)) continue;
+    // InventoryDoll: Gegenstände aus Behältern, die der SL für den Kampf gesperrt hat, nicht anbieten
+    if (reachable && item.system?.container && !reachable(item)) continue;
     const entries = entriesForItem(item, types);
     if (!entries.length) continue;
     switch (item.type) {
