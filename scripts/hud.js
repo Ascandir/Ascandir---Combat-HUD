@@ -1294,7 +1294,8 @@ export function getWeaponSets(actor) {
     defaults[1] = { primary: weapons[0]?.id ?? null, secondary: weapons[1]?.id ?? null };
     defaults[2] = { primary: weapons[2]?.id ?? null, secondary: weapons[3]?.id ?? null };
     defaults[3] = { primary: weapons[4]?.id ?? null, secondary: weapons[5]?.id ?? null };
-  } else {
+  } else if (!game.modules.get("ascandir-dnd5e-inventorydoll")?.active) {
+    // Ohne InventoryDoll: ausgerüstete Waffe als Vorbelegung. Mit InventoryDoll legt der Spieler die Sets selbst fest.
     const equipped = realWeapons.filter((w) => w.system.equipped);
     const main = equipped[0] ?? realWeapons[0] ?? null;
     const off = equipped.find((w) => w !== main && w.system.properties?.has?.("lgt")) ?? null;
