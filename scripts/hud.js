@@ -1286,14 +1286,17 @@ function hasAttack(item) {
 export function getWeaponSets(actor) {
   const flag = foundry.utils.deepClone(actor.getFlag(ID, "weaponSets") ?? {});
   const weapons = actor.items.filter((i) => i.type === "weapon" && hasAttack(i)).sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+  // Für die Vorbelegung nur echte Waffen aus dem Inventar (kein Waffenloser Schlag, keine natürlichen Waffen)
+  const realWeapons = weapons.filter((w) => !["natural", "siege"].includes(w.system.type?.value)
+    && !/unarmed|waffenlos/i.test(w.system.identifier || w.name) && (Number(w.system.quantity ?? 1) || 0) > 0);
   const defaults = { 1: {}, 2: {}, 3: {} };
   if (actor.type === "npc") {
     defaults[1] = { primary: weapons[0]?.id ?? null, secondary: weapons[1]?.id ?? null };
     defaults[2] = { primary: weapons[2]?.id ?? null, secondary: weapons[3]?.id ?? null };
     defaults[3] = { primary: weapons[4]?.id ?? null, secondary: weapons[5]?.id ?? null };
   } else {
-    const equipped = weapons.filter((w) => w.system.equipped);
-    const main = equipped[0] ?? weapons[0] ?? null;
+    const equipped = realWeapons.filter((w) => w.system.equipped);
+    const main = equipped[0] ?? realWeapons[0] ?? null;
     const off = equipped.find((w) => w !== main && w.system.properties?.has?.("lgt")) ?? null;
     defaults[1] = { primary: main?.id ?? null, secondary: off?.id ?? null };
   }
