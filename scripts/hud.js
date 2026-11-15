@@ -445,9 +445,16 @@ export class CombatHud {
 
     // --- Aktion ---
     {
-      const c = collect(actor, ACTIVATION.action, { exclude: setItems });
+      // Waffenloser Schlag: immer als eigene Kachel neben der Haupthand (jeder kann waffenlos angreifen)
+      const unarmed = actor.items.find((i) => i.type === "weapon" && /unarmed|waffenlos/i.test(`${i.system.identifier ?? ""} ${i.name}`));
+      const showUnarmed = unarmed && !setItems.includes(unarmed) && setting("unarmedTile") !== false;
+      const c = collect(actor, ACTIVATION.action, { exclude: showUnarmed ? [...setItems, unarmed] : setItems });
       const tiles = [];
       tiles.push(this._setSlotTile(primary, "primary", "action"));
+      if (showUnarmed) {
+        const entry = entriesForItem(unarmed, ACTIVATION.action)[0];
+        if (entry) tiles.push(this._entryTile({ ...entry, label: unarmed.name }, actor, { economy: "action" }));
+      }
       if (c.weapons.length) tiles.push(this._catTile("weapons", t("Cat.Weapons"), "fas fa-khanda", [{ entries: c.weapons }], { actor }));
       if (c.spells.length) tiles.push(this._spellCat(actor, c.spells));
       tiles.push(...this._barTiles(actor, c.barFeatures));

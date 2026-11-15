@@ -272,6 +272,10 @@
       "showOtherAbilities": {
         "Name": "Show other abilities",
         "Hint": "Abilities without a fixed activation (e.g. Sneak Attack, Divine Strike, Metamagic, Arcane Recovery) appear in the Special panel under 'Other Abilities'."
+      },
+      "unarmedTile": {
+        "Name": "Unarmed strike as its own tile",
+        "Hint": "Always shows the unarmed strike as its own tile next to the main hand."
       }
     },
     "Res": {

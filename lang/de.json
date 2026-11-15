@@ -272,6 +272,10 @@
       "showOtherAbilities": {
         "Name": "Weitere Fähigkeiten anzeigen",
         "Hint": "Fähigkeiten ohne feste Aktionsart (z. B. Hinterhältiger Angriff, Göttlicher Schlag, Metamagie, Arkane Erholung) erscheinen im Bereich Spezial unter „Weitere Fähigkeiten“."
+      },
+      "unarmedTile": {
+        "Name": "Waffenloser Schlag als eigene Kachel",
+        "Hint": "Zeigt den waffenlosen Schlag immer als eigene Kachel neben der Haupthand."
       }
     },
     "Res": {

@@ -47,6 +47,7 @@ function registerSettings() {
   // Inhalt
   client("showResources", Boolean, true);
   client("showBasicActions", Boolean, true);
+  client("unarmedTile", Boolean, true);
   client("showOtherAbilities", Boolean, true);
   client("limitedFeaturesInBar", Boolean, true);
   client("condenseFeatures", Boolean, true);
