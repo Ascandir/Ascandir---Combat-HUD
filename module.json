@@ -2,7 +2,7 @@
   "id": "ascandir-combat-hud",
   "title": "Ascandir - Combat HUD",
   "description": "Eigenes Kampf-HUD für dnd5e im rustikalen Fantasy-Look: Portrait mit Werten, Bewegung, Aktion/Bonusaktion/Reaktion/Spezial, Zauber nach Grad, Waffensets und Tooltips. Mit Anbindung an „Ascandir - DnD5e Mounting“: Reittier-Werte im Portrait und eigener Bereich „Reittier“.",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "authors": [
     {
       "name": "Ascandir"

@@ -470,6 +470,7 @@ export class CombatHud {
       const tiles = [];
       const off = secondary ? entriesForItem(secondary, ["action", "bonus"])[0] : null;
       if (off) tiles.push(this._entryTile({ ...off, label: secondary.name }, actor, { economy: "bonus", slot: "secondary" }));
+      else if (secondary && secondary.type !== "weapon" && secondary.system?.type?.value !== "shield") tiles.push(this._heldTile(secondary, "secondary"));
       if (c.weapons.length) tiles.push(this._catTile("weapons", t("Cat.Weapons"), "fas fa-khanda", [{ entries: c.weapons }], { actor }));
       if (c.spells.length) tiles.push(this._spellCat(actor, c.spells));
       tiles.push(...this._barTiles(actor, c.barFeatures));
@@ -598,8 +599,14 @@ export class CombatHud {
     if (item) {
       const e = entriesForItem(item, ACTIVATION.action)[0] ?? entriesForItem(item, ["bonus", "reaction", "special"])[0];
       if (e) return this._entryTile({ ...e, label: item.name }, actor, { economy: panel, slot });
+      return this._heldTile(item, slot);
     }
     return { kind: "slot", key: this.reg({ type: "slot", slot }), slot };
+  }
+
+  /** Gehaltener Gegenstand ohne eigene Aktion (z. B. Instrument als Zauberfokus, Werkzeug). */
+  _heldTile(item, slot) {
+    return { kind: "held", key: this.reg({ type: "held", item, slot }), item, slot };
   }
 
   _barTiles(actor, entries, { mount = false } = {}) {
@@ -636,6 +643,11 @@ export class CombatHud {
     switch (tile.kind) {
       case "split":
         return `<div class="ach-split">${this._tileHTML(tile.a, { half: true })}${this._tileHTML(tile.b, { half: true })}</div>`;
+      case "held":
+        return `
+          <div class="ach-tile ach-tile-item ach-tile-held ${small ? "small" : ""}" data-key="${tile.key}" data-drop="${tile.slot}" style="background-image:url('${esc(tile.item.img)}')" data-tip="${esc(tile.item.name)}">
+            <span class="ach-tile-label">${esc(tile.item.name)}</span>
+          </div>`;
       case "slot":
         return `
           <div class="ach-tile ach-tile-slot" data-key="${tile.key}" data-drop="${tile.slot}" data-tip="${esc(t("Sets.EmptySlot"))}">
@@ -926,6 +938,13 @@ export class CombatHud {
       }
       case "slot":
         return ui.notifications.info(t("Sets.EmptySlot"));
+      case "held": {
+        // Werkzeug/Instrument: Werkzeugwurf, sonst Gegenstand öffnen
+        const item = obj.item;
+        if (item.system?.activities?.size) return item.use({ event: ev });
+        if (item.type === "tool" && typeof item.rollToolCheck === "function") return item.rollToolCheck({ event: ev });
+        return item.sheet.render(true);
+      }
       case "entry":
         return this._useEntry(obj, ev);
       case "basic":
