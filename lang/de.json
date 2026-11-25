@@ -40,7 +40,8 @@
       "SpeedTip": "Bewegungsrate des Reittiers",
       "DeathSave": "Todesrettungswurf",
       "CR": "HG {cr}",
-      "Level": "Stufe {level}"
+      "Level": "Stufe {level}",
+      "Dead": "Tot"
     },
     "Mount": {
       "Label": "Reittier",

@@ -332,7 +332,7 @@ body.ach-hide-ui #players {
 /* Todesrettungswürfe */
 .ach-death {
   position: absolute;
-  top: 40px;
+  top: 62px;
   left: 0;
   right: 0;
   display: flex;
@@ -340,6 +340,22 @@ body.ach-hide-ui #players {
   align-items: center;
   gap: 6px;
   z-index: 2;
+}
+.ach-dead {
+  position: absolute;
+  inset: 0 0 70px 0;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  pointer-events: auto;
+}
+.ach-dead i {
+  font-size: 120px;
+  color: rgba(245, 240, 230, 0.82);
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 18px rgba(120, 0, 0, 0.6));
+}
+.ach-portrait.is-dead .ach-portrait-img {
+  filter: grayscale(1) brightness(0.45) sepia(0.4) hue-rotate(-20deg);
 }
 .ach-death-row {
   display: flex;

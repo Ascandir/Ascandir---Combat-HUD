@@ -40,7 +40,8 @@
       "SpeedTip": "Mount speed",
       "DeathSave": "Death saving throw",
       "CR": "CR {cr}",
-      "Level": "Level {level}"
+      "Level": "Level {level}",
+      "Dead": "Dead"
     },
     "Mount": {
       "Label": "Mount",

@@ -297,9 +297,13 @@ export class CombatHud {
     }
 
     let death = "";
+    // Tot: 3 Fehlschläge oder Zustand „Tot“ → großer Totenkopf statt Würfel-Knopf
+    const dead = (dying && s.death.failure >= 3) || !!actor.statuses?.has?.("dead");
     // SL-Einstellung: Todesrettungswürfe für Spieler zeigen, nur den Knopf zeigen oder ganz ausblenden
     const deathMode = game.user.isGM ? "show" : setting("deathSaves") ?? "show";
-    if (dying && deathMode !== "hide") {
+    if (dead) {
+      death = `<div class="ach-dead" data-tip="${esc(t("Portrait.Dead"))}"><i class="fas fa-skull"></i></div>`;
+    } else if (dying && deathMode !== "hide") {
       const pip = (n, cls) => Array.from({ length: 3 }, (_, i) => `<i class="fas ${cls} ${i < n ? "on" : ""}"></i>`).join("");
       const rows = deathMode === "show";
       death = `
@@ -314,7 +318,7 @@ export class CombatHud {
       <section class="ach-portrait-col">
         ${this._drawerHTML()}
         ${this._setsHTML()}
-        <div class="ach-portrait ${mActor ? "is-mounted" : ""} ${dying ? "is-dying" : ""}">
+        <div class="ach-portrait ${mActor ? "is-mounted" : ""} ${dying || dead ? "is-dying" : ""} ${dead ? "is-dead" : ""}">
           <div class="ach-portrait-img" style="background-image:url('${esc(img)}')" data-action="sheet" data-target="rider"></div>
           <div class="ach-effects">${effects}</div>
           ${death}
