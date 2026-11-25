@@ -63,6 +63,9 @@ function registerSettings() {
   world("trackMovement", Boolean, true);
   world("trackEconomy", Boolean, true);
   world("mountPanel", Boolean, true);
+  world("deathSaves", String, "show", {
+    choices: { show: "ACH.Settings.deathSaves.show", button: "ACH.Settings.deathSaves.button", hide: "ACH.Settings.deathSaves.hide" }
+  });
 }
 
 /* -------------------------------------------- */

@@ -276,6 +276,13 @@
       "unarmedTile": {
         "Name": "Waffenloser Schlag als eigene Kachel",
         "Hint": "Zeigt den waffenlosen Schlag immer als eigene Kachel neben der Haupthand."
+      },
+      "deathSaves": {
+        "Name": "Todesrettungswürfe im HUD",
+        "Hint": "Was Spieler bei 0 TP im Portrait sehen. Die Spielleitung sieht immer alles.",
+        "show": "Erfolge/Fehlschläge und Würfel-Knopf zeigen",
+        "button": "Nur Würfel-Knopf zeigen (Ergebnisse verborgen)",
+        "hide": "Gar nicht anzeigen"
       }
     },
     "Res": {

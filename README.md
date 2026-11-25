@@ -67,6 +67,7 @@ Falls Argon noch aktiv ist, solltest du es deaktivieren, sonst liegen zwei HUDs 
 - Nur vorbereitete Zauber, Waffensets ausrüsten
 - Bewegung zählen, Aktionen als verbraucht markieren
 - Reittier-Bereich anzeigen
+- Todesrettungswürfe im HUD: für Spieler zeigen / nur Würfel-Knopf / gar nicht (der SL sieht immer alles)
 
 ## Reittier (mit „Ascandir - DnD5e Mounting“)
 

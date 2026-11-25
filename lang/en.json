@@ -276,6 +276,13 @@
       "unarmedTile": {
         "Name": "Unarmed strike as its own tile",
         "Hint": "Always shows the unarmed strike as its own tile next to the main hand."
+      },
+      "deathSaves": {
+        "Name": "Death saves in the HUD",
+        "Hint": "What players see in the portrait at 0 HP. The GM always sees everything.",
+        "show": "Show successes/failures and roll button",
+        "button": "Roll button only (results hidden)",
+        "hide": "Don't show"
       }
     },
     "Res": {

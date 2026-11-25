@@ -297,13 +297,16 @@ export class CombatHud {
     }
 
     let death = "";
-    if (dying) {
+    // SL-Einstellung: Todesrettungswürfe für Spieler zeigen, nur den Knopf zeigen oder ganz ausblenden
+    const deathMode = game.user.isGM ? "show" : setting("deathSaves") ?? "show";
+    if (dying && deathMode !== "hide") {
       const pip = (n, cls) => Array.from({ length: 3 }, (_, i) => `<i class="fas ${cls} ${i < n ? "on" : ""}"></i>`).join("");
+      const rows = deathMode === "show";
       death = `
         <div class="ach-death">
-          <div class="ach-death-row ach-death-ok">${pip(s.death.success, "fa-heart")}</div>
+          ${rows ? `<div class="ach-death-row ach-death-ok">${pip(s.death.success, "fa-heart")}</div>` : ""}
           <button type="button" class="ach-death-btn" data-action="death" data-tip="${esc(t("Portrait.DeathSave"))}"><i class="fas fa-skull"></i></button>
-          <div class="ach-death-row ach-death-fail">${pip(s.death.failure, "fa-skull-crossbones")}</div>
+          ${rows ? `<div class="ach-death-row ach-death-fail">${pip(s.death.failure, "fa-skull-crossbones")}</div>` : ""}
         </div>`;
     }
 
