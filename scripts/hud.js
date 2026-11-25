@@ -301,16 +301,24 @@ export class CombatHud {
     const dead = (dying && s.death.failure >= 3) || !!actor.statuses?.has?.("dead");
     // SL-Einstellung: Todesrettungswürfe für Spieler zeigen, nur den Knopf zeigen oder ganz ausblenden
     const deathMode = game.user.isGM ? "show" : setting("deathSaves") ?? "show";
+    const pip = (n, cls) => Array.from({ length: 3 }, (_, i) => `<i class="fas ${cls} ${i < n ? "on" : ""}"></i>`).join("");
     if (dead) {
-      death = `<div class="ach-dead" data-tip="${esc(t("Portrait.Dead"))}"><i class="fas fa-skull"></i></div>`;
+      // Totenkopf aus den Zuständen (Status „Tot“), an der Stelle des Würfel-Knopfs
+      const deadImg = CONFIG.statusEffects?.find?.((e) => e.id === "dead")?.img ?? CONFIG.controlIcons?.defeated ?? "icons/svg/skull.svg";
+      death = `
+        <div class="ach-death is-dead">
+          <div class="ach-death-row ach-death-ok ach-ghost">${pip(0, "fa-heart")}</div>
+          <img class="ach-dead-img" src="${esc(deadImg)}" data-tip="${esc(t("Portrait.Dead"))}">
+          <div class="ach-death-row ach-death-fail ach-ghost">${pip(0, "fa-skull-crossbones")}</div>
+        </div>`;
     } else if (dying && deathMode !== "hide") {
-      const pip = (n, cls) => Array.from({ length: 3 }, (_, i) => `<i class="fas ${cls} ${i < n ? "on" : ""}"></i>`).join("");
-      const rows = deathMode === "show";
+      // Ohne Anzeige der Erfolge/Fehlschläge bleiben die Reihen unsichtbar stehen, damit der Knopf an derselben Stelle sitzt
+      const ghost = deathMode === "show" ? "" : "ach-ghost";
       death = `
         <div class="ach-death">
-          ${rows ? `<div class="ach-death-row ach-death-ok">${pip(s.death.success, "fa-heart")}</div>` : ""}
+          <div class="ach-death-row ach-death-ok ${ghost}">${pip(ghost ? 0 : s.death.success, "fa-heart")}</div>
           <button type="button" class="ach-death-btn" data-action="death" data-tip="${esc(t("Portrait.DeathSave"))}"><i class="fas fa-skull"></i></button>
-          ${rows ? `<div class="ach-death-row ach-death-fail">${pip(s.death.failure, "fa-skull-crossbones")}</div>` : ""}
+          <div class="ach-death-row ach-death-fail ${ghost}">${pip(ghost ? 0 : s.death.failure, "fa-skull-crossbones")}</div>
         </div>`;
     }
 
